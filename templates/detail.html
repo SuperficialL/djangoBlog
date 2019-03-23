@@ -1,0 +1,91 @@
+﻿{% extends "base.html" %}
+{% block content %}
+  <div class="main">
+    <section class="content">
+      <ul class="breadcrumb">
+        <li>您的位置</li>
+        <li>
+          <a class="breadcrumb" href="{% url 'index' %}">首页</a>
+        </li>
+        <li>
+          <a href="{% url 'category' article.category.id %}">{{ article.category.name }}
+          </a>
+        </li>
+        <li><span class="active">正文</span></li>
+      </ul>
+      <article class="article">
+        <div class="post-main">
+          <h2 class="title">{{ article.title }}</h2>
+          <div class="meta">
+            <span class="item">分类：<a href="{% url 'category' article.category.id %}">
+              {{ article.category.name }}</a>
+            </span>
+            <span class="item">作者：{{ article.user }}</span>
+            <span class="item">浏览：{{ article.views }}</span>
+            <span class="item">{{ article.created_time }}</span>
+          </div>
+          <div class="post-con">
+            <article class="article-content">
+              {{ article.body|safe }}
+            </article>
+
+            <div class="post-tag">
+              <span class="fa fa-tags" aria-hidden="true"></span>标签：
+              {% for tag in article.tags.all %}
+                <a href="{% url 'index' %}tag/{{ tag.name }}" rel="tag">{{ tag.name }}</a>
+              {% endfor %}
+            </div>
+            <div>
+              <div><b>上一篇：</b>
+                {% if article.prev_article %}
+                  <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
+                    {{ article.prev_article.title }}
+                  </a>
+                {% else %}
+                  没有了
+                {% endif %}
+              </div>
+              <div><b>下一篇：</b>
+                {% if article.next_article %}
+                  <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
+                    {{ article.next_article.title }}
+                  </a>
+                {% else %}
+                  没有了
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </article>
+      <!-- /文章 -->
+
+
+      <div class="recommend  hidden-xs">
+
+        <div class="head clearfix"><span class="sp">您可能感兴趣的:</span></div>
+        <ul>
+          {% for h in hot %}
+            <li>
+              <div class="pic">
+                <a href="{% url 'index' %}show-{{ h.id }}.html" title="{{ h.title }}"><img
+                        src="{% url 'index' %}media/{{ h.img }}"
+                        srcset="{% url 'index' %}media/{{ h.img }}"
+                        alt="{{ h.title }}" class="wp-post-image" width="145"
+                        height="100"/></a>
+              </div>
+              <a class="descript " href="{% url 'index' %}show-{{ h.id }}.html" rel="bookmark"
+                 title="{{ h.title }}">{{ h.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+
+    </section>
+    <aside class="sidebar">
+      {% include 'sidebar.html' %}
+    </aside>
+  </div>
+{% endblock %}

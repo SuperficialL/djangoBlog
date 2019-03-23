@@ -1,0 +1,64 @@
+﻿{% extends "base.html" %}
+{% block content %}
+  <section class="section">
+    <div class="main">
+      <div class="content">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+          <li>您的位置</li>
+          <li>
+            <a class="breadcrumb" href="{% url 'index' %}">首页</a>
+          </li>
+          <li>
+            <span class="current">{{ category_name }} </span>
+          </li>
+        </ul>
+        <section class="article-wrap">
+          <div class="main-title">
+            <h4 class="post-left-title">分类：{{ category_name }}</h4>
+          </div>
+          {% for article in article_list %}
+            <article class="article-list">
+              <a href="{% url 'detail' article.pk %}"
+                 title="{{ article.title }}"
+              >
+                <img src="{{ article.img.url }}"
+                     alt="{{ article.title }}"
+                     class="thumbnail"/>
+              </a>
+              <div class="article-inner">
+                <h3 class="title">
+                  <a href="{% url 'detail' article.pk %}"
+                     title="{{ article.title }}">
+                    {{ article.title }}
+                  </a>
+                </h3>
+                <div class="summary">
+                  {{ article.excerpt }}
+                </div>
+                <div class="meta">
+                      <span class="label label-info">
+                        <a href="{% url 'category' article.category.pk %}">
+                          {{ article.category.name }}
+                        </a>
+                      </span>
+                  <time class="item">
+                    <i class="fa fa-clock-o"></i>
+                    {{ article.created_time }}
+                  </time>
+                  <span>
+                      <i class="fa fa-clock-o"></i>
+                      {{ article.views }}
+                    </span>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </section>
+      </div>
+      <div class="sidebar">
+        {% include 'sidebar.html' %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
