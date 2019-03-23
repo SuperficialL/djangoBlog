@@ -1,5 +1,5 @@
 """
-WSGI config for personalBlog project.
+WSGI config for djangoBlog project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
