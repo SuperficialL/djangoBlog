@@ -15,5 +15,11 @@ pip install -r requirements.txt
 ## 部署，修改setting.py中的DEBUG=FALSE,并搜集静态文件
 `python manage.py collectstatic`
 
-## 安装uwsgi,并设置相关配置,安装时不要安装到python的虚拟环境中了
+## 安装uwsgi,并设置相关配置到`djangoBlog.ini`文件中,安装时不要安装到python的虚拟环境中了
 `pip install uwsgi`
+
+## 执行命令行uwsgi
+`uwsgi --ini djangoBlog.ini`
+
+## 安装nginx,并编写配置文件
+`apt install nginx`
