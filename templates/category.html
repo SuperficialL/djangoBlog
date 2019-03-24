@@ -1,55 +1,60 @@
 ﻿{% extends "base.html" %}
 {% block content %}
-  <section class="section">
-    <div class="main">
-      <div class="content">
-        <div class="main-title">
-          <h4 class="post-left-title">分类：{{ category_name }}</h4>
-        </div>
-        <section class="article-wrap">
-          {% for article in article_list %}
-            <article class="article-list">
-              <a href="{% url 'detail' article.pk %}"
-                 title="{{ article.title }}"
-              >
-                <img src="{{ article.img.url }}"
-                     alt="{{ article.title }}"
-                     class="thumbnail"/>
-              </a>
-              <div class="article-inner">
-                <h3 class="title">
-                  <a href="{% url 'detail' article.pk %}"
-                     title="{{ article.title }}">
-                    {{ article.title }}
-                  </a>
-                </h3>
-                <div class="summary">
-                  {{ article.excerpt }}
+    <section class="section">
+        <div class="main">
+            <div class="content">
+                <div class="main-title">
+                    <h4 class="post-left-title">分类：{{ category_name }}</h4>
                 </div>
-                <div class="meta">
-                  <span class="label label-info">
-                    <a href="{% url 'category' article.category.pk %}">
-                      {{ article.category.name }}
-                    </a>
-                  </span>
-                  <span>
-                    <i class="fa fa-clock-o"></i>
-                    {{ article.created_time }}
-                  </span>
-                  <span>
+                <section class="article-wrap">
+                    {% for article in article_list %}
+                        <article class="article-list">
+                            <a href="{% url 'detail' article.id %}"
+                               title="{{ article.title }}"
+                            >
+                                <img src="{{ article.img.url }}"
+                                     alt="{{ article.title }}"
+                                     class="thumbnail"/>
+                            </a>
+                            <div class="article-inner">
+                                <h3 class="title">
+                                    <a href="{% url 'detail' article.id %}"
+                                       title="{{ article.title }}">
+                                        {{ article.title }}
+                                    </a>
+                                </h3>
+                                <div class="summary">
+                                    {{ article.excerpt }}
+                                </div>
+                                <div class="article-info">
+                                    <div class="meta">
+                    <span class="label label-info">
+                      <a href="{% url 'category' article.category.pk %}">
+                        {{ article.category.name }}
+                      </a>
+                    </span>
+                                        <span>
                       <i class="fa fa-clock-o"></i>
+                      {{ article.created_time }}
+                    </span>
+                                        <span>
+                      <i class="fa fa-eye"></i>
                       {{ article.views }}
                     </span>
-                </div>
-              </div>
-            </article>
-          {% endfor %}
-          {% include 'paginator.html' %}
-        </section>
-      </div>
-      <div class="sidebar">
-        {% include 'sidebar.html' %}
-      </div>
-    </div>
-  </section>
+                                    </div>
+                                    <a class="label label-info" href="{% url 'detail' article.pk %}">
+                                        阅读详情
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                    {% include 'paginator.html' %}
+                </section>
+            </div>
+            <div class="sidebar">
+                {% include 'sidebar.html' %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

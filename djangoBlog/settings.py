@@ -24,7 +24,7 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwuurui.com', '134.175.3.213', '127.0.0.1']
 
 # Application definition
 
@@ -76,17 +76,17 @@ WSGI_APPLICATION = 'djangoBlog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'website',
-        'USER': 'root',
-        'PASSWORD': '950312',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'website',
+    #     'USER': 'root',
+    #     'PASSWORD': '950312',
+    #     'PORT': '3306'
+    # }
 }
 
 # Password validation
