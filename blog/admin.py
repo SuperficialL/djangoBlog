@@ -36,7 +36,7 @@ class TuiAdmin(admin.ModelAdmin):
 
 @admin.register(Link)
 class LinkAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'linkurl')
+    list_display = ('id', 'name', 'link_url')
 
 
 @admin.register(SiteInfo)

@@ -6,7 +6,7 @@ def global_variable(request):
     categories = Category.objects.all()
     recommend = Article.objects.filter(tui__id=2)[:6]
     tags = Tag.objects.all()
-    siteinfo = SiteInfo.objects.all()
+    site_info = SiteInfo.objects.all().first()
     hot = Article.objects.all().order_by('views')[:10]
     links = Link.objects.all()
     return locals()

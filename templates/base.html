@@ -77,16 +77,15 @@
   <ul class="clears">
     {% for link in links %}
       <li>
-        <a href="{{ link.linkurl }}" target="_blank">{{ link.name }}</a>
+        <a href="{{ link.link_url }}" target="_blank">{{ link.name }}</a>
       </li>
     {% endfor %}
   </ul>
 </div>
 
 <footer id="footer">
-  <div class="copyright"> © 2010- 2018 · All Rights Reserved
-    · <a href="https://www.django.cn">Django中文网</a>
-    · <a href="http://www.miibeian.gov.cn" target="_blank">湘ICP备17023990号</a> 版权所有 © Django中文网
+  <div class="copyright">{{ site_info.copyright }}
+    · <a href="http://www.miibeian.gov.cn" target="_blank">{{ site_info.code }}</a>
   </div>
 </footer>
 <script type='text/javascript' src='{% static "js/jquery.min.js" %}'></script>

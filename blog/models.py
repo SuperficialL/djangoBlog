@@ -129,7 +129,7 @@ class Banner(models.Model):
 class Link(models.Model):
     # 友情链接
     name = models.CharField('链接名称', max_length=20)
-    linkurl = models.URLField('网址', max_length=100)
+    link_url = models.URLField('网址', max_length=100)
 
     def __str__(self):
         return self.name

@@ -3,15 +3,10 @@
   <section class="section">
     <div class="main">
       <div class="content">
-        <ul class="breadcrumb">
-          <li>您的位置：</li>
-          <li><a href="{% url 'index' %}">首页</a></li>
-          <li><span class="current">标签：{{ tag_name }}</span></li>
-        </ul>
+        <div class="main-title">
+          <h4 class="post-left-title">标签：{{ tag_name }}</h4>
+        </div>
         <section class="article-wrap">
-          <div class="main-title">
-            <h4 class="post-left-title">标签：{{ tag_name }}</h4>
-          </div>
           {% for article in article_list %}
             <article class="article-list">
               <a href="{% url 'detail' article.id %}"

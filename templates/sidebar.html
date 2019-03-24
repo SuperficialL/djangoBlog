@@ -1,4 +1,4 @@
-<aside class="aside">
+<div class="aside">
   <h4 class="title">热门文章排行</h4>
   <ol class="hot-list">
     {% for article in hot %}
@@ -9,8 +9,8 @@
       </li>
     {% endfor %}
   </ol>
-</aside>
-<aside class="aside">
+</div>
+<div class="aside">
   <h4 class="title">热门推荐</h4>
   <ul class="recommend">
     {% for article in recommend %}
@@ -30,8 +30,8 @@
       </li>
     {% endfor %}
   </ul>
-</aside>
-<aside class="aside">
+</div>
+<div class="aside">
   <h4 class="title">所有标签</h4>
   <ul class="tags">
     {% for tag in tags %}
@@ -42,16 +42,4 @@
       </li>
     {% endfor %}
   </ul>
-</aside>
-<aside class="aside">
-  <h4 class="title">关注我们</h4>
-  <div class="wid-about">
-    <p>拓普Python学院，欢迎关注！</p>
-    <img src="{% static "picture/weixinqr.jpg" %}" alt="微信二维码" width="160" height="160">
-  </div>
-  <div class="wid-about">
-    <p><strong>联系方式:</strong></p>
-    <p>QQ:445813</p>
-    <p>Email：445813@qq.com</p>
-  </div>
-</aside>
+</div>
