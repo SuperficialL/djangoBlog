@@ -118,14 +118,17 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 # 设置静态文件路径
 STATIC_URL = '/static/'
+# 部署网站时搜集静态文件
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_dist')
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static').replace('\\', '/'),
+    os.path.join(BASE_DIR, 'static')
 )
 
 # 设置文件上传路径
