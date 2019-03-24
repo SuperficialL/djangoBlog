@@ -8,7 +8,8 @@
           <a class="breadcrumb" href="{% url 'index' %}">首页</a>
         </li>
         <li>
-          <a href="{% url 'category' article.category.id %}">{{ article.category.name }}
+          <a href="{% url 'category' article.category.id %}">
+            {{ article.category.name }}
           </a>
         </li>
         <li><span class="active">正文</span></li>
@@ -56,33 +57,30 @@
               </div>
             </div>
           </div>
-
         </div>
       </article>
       <!-- /文章 -->
-
-
-      <div class="recommend  hidden-xs">
-
-        <div class="head clearfix"><span class="sp">您可能感兴趣的:</span></div>
+      <div class="recommend">
+        <div class="head clearfix">
+          <span class="sp">您可能感兴趣的:</span>
+        </div>
         <ul>
-          {% for h in hot %}
+          {% for article in hot %}
             <li>
               <div class="pic">
-                <a href="{% url 'index' %}show-{{ h.id }}.html" title="{{ h.title }}"><img
-                        src="{% url 'index' %}media/{{ h.img }}"
-                        srcset="{% url 'index' %}media/{{ h.img }}"
-                        alt="{{ h.title }}" class="wp-post-image" width="145"
-                        height="100"/></a>
+                <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
+                  <img src="{{ article.img.url }}"
+                       alt="{{ article.title }}"
+                       class="wp-post-image" width="145"
+                       height="100"/></a>
               </div>
-              <a class="descript " href="{% url 'index' %}show-{{ h.id }}.html" rel="bookmark"
-                 title="{{ h.title }}">{{ h.title }}</a>
+              <a class="description" href="{% url 'detail' article.pk %}" rel="bookmark"
+                 title="{{ article.title }}">{{ article.title }}</a>
             </li>
           {% endfor %}
         </ul>
       </div>
-
-
+      {% include 'comments.html' %}
     </section>
     <aside class="sidebar">
       {% include 'sidebar.html' %}

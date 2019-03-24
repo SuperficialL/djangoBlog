@@ -3,20 +3,10 @@
   <section class="section">
     <div class="main">
       <div class="content">
-        <!-- 面包屑导航 -->
-        <ul class="breadcrumb">
-          <li>您的位置</li>
-          <li>
-            <a class="breadcrumb" href="{% url 'index' %}">首页</a>
-          </li>
-          <li>
-            <span class="current">{{ category_name }} </span>
-          </li>
-        </ul>
+        <div class="main-title">
+          <h4 class="post-left-title">分类：{{ category_name }}</h4>
+        </div>
         <section class="article-wrap">
-          <div class="main-title">
-            <h4 class="post-left-title">分类：{{ category_name }}</h4>
-          </div>
           {% for article in article_list %}
             <article class="article-list">
               <a href="{% url 'detail' article.pk %}"
@@ -37,15 +27,15 @@
                   {{ article.excerpt }}
                 </div>
                 <div class="meta">
-                      <span class="label label-info">
-                        <a href="{% url 'category' article.category.pk %}">
-                          {{ article.category.name }}
-                        </a>
-                      </span>
-                  <time class="item">
+                  <span class="label label-info">
+                    <a href="{% url 'category' article.category.pk %}">
+                      {{ article.category.name }}
+                    </a>
+                  </span>
+                  <span>
                     <i class="fa fa-clock-o"></i>
                     {{ article.created_time }}
-                  </time>
+                  </span>
                   <span>
                       <i class="fa fa-clock-o"></i>
                       {{ article.views }}
@@ -54,6 +44,7 @@
               </div>
             </article>
           {% endfor %}
+          {% include 'paginator.html' %}
         </section>
       </div>
       <div class="sidebar">

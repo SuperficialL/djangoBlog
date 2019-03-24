@@ -1,7 +1,7 @@
 ﻿{% extends "base.html" %}
-{% load static %}
 {% block content %}
   <section class="section">
+    {{ tuit }}
     <div class="main">
       <div class="content">
         <!-- 轮播图 -->
@@ -70,24 +70,65 @@
                 <div class="summary">
                   {{ article.excerpt }}
                 </div>
-                <div class="meta">
+                <div class="article-info">
+                  <div class="meta">
                     <span class="label label-info">
                       <a href="{% url 'category' article.category.pk %}">
                         {{ article.category.name }}
                       </a>
                     </span>
-                  <time class="item">
-                    <i class="fa fa-clock-o"></i>
-                    {{ article.created_time }}
-                  </time>
-                  <span>
-                    <i class="fa fa-clock-o"></i>
-                    {{ article.views }}
-                  </span>
+                    <span>
+                      <i class="fa fa-clock-o"></i>
+                      {{ article.created_time }}
+                    </span>
+                    <span>
+                      <i class="fa fa-eye"></i>
+                      {{ article.views }}
+                    </span>
+                  </div>
+                  <a class="label label-info" href="{% url 'detail' article.pk %}">
+                    阅读详情
+                  </a>
                 </div>
               </div>
             </article>
           {% endfor %}
+          <div class="pagination">
+            <span>
+              共{{ paginator.count }}篇博文，当前{{ page }}页，共{{ paginator.num_pages }}页
+            </span>
+            <ul>
+              {% if article_list.has_previous %}
+                <li class="prev-page">
+                  <a href="?page={{ article_list.previous_page_number }}">上一页</a>
+                </li>
+              {% else %}
+                <li class="prev-page"></li>
+              {% endif %}
+              {% for num in article_list.paginator.page_range %}
+                {% if num %}
+                  {% ifequal num article_list.number %}
+                    <li class="active">
+                      <span>{{ num }}</span>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                  {% endifequal %}
+                {% else %}
+                  <li class="disabled"><span>...</span></li>
+                {% endif %}
+              {% endfor %}
+              {% if article_list.has_next %}
+                <li class="next-page">
+                  <a href="?page={{ article_list.next_page_number }}">下一页</a>
+                </li>
+              {% else %}
+                <li class="prev-page"></li>
+              {% endif %}
+            </ul>
+          </div>
         </section>
       </div>
       <div class="sidebar">

@@ -64,6 +64,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'blog.custom_processors.global_variable',
             ],
+            'builtins': [
+                'django.templatetags.static'
+            ]
         },
     },
 ]
@@ -116,7 +119,7 @@ USE_TZ = True
 # 设置静态文件路径
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static').replace('\\', '/'),
 )
 
 # 设置文件上传路径

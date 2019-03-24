@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo
+from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo, Comment
 
 
 @admin.register(Article)
@@ -42,3 +42,8 @@ class LinkAdmin(admin.ModelAdmin):
 @admin.register(SiteInfo)
 class SiteInfoAdmin(admin.ModelAdmin):
     list_display = ('site_name', 'keywords', 'desc', 'copyright', 'code')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'url', 'article_id', 'created_time')

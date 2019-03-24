@@ -1,0 +1,22 @@
+<div class="pagination">
+          <span>
+              共{{ paginator.count }}篇博文，当前{{ article_list.number }}页，共{{ paginator.num_pages }}页
+            </span>
+            <ul>
+              {% if article_list.has_previous %}
+                <li class="prev-page">
+                  <a href="?page={{ article_list.previous_page_number }}">上一页</a>
+                </li>
+              {% endif %}
+              {% for page in paginator.page_range %}
+                <li>
+                  <a href="?page={{ page }}">{{ page }}</a>
+                </li>
+              {% endfor %}
+              {% if article_list.has_previous %}
+                <li class="next-page">
+                  <a href="?page={{ article_list.next_page_number }}">上一页</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
