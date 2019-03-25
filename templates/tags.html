@@ -7,7 +7,7 @@
           <h4 class="post-left-title">标签：{{ tag_name }}</h4>
         </div>
         <section class="article-wrap">
-          {% for article in article_list %}
+          {% for article in pages.object_list %}
             <article class="article-list">
               <a href="{% url 'detail' article.id %}"
                  title="{{ article.title }}"
@@ -40,6 +40,10 @@
                     <span>
                       <i class="fa fa-eye"></i>
                       {{ article.views }}
+                    </span>
+                    <span>
+                      <i class="fa fa-commenting-o"></i>
+                      {{ article.comment_set.all.count }}
                     </span>
                   </div>
                   <a class="label label-info" href="{% url 'detail' article.pk %}">

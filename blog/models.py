@@ -7,7 +7,7 @@ import hashlib
 
 
 class Category(models.Model):
-    # 文章分类
+    """文章分类"""
     name = models.CharField('博客分类',
                             max_length=100)
     index = models.IntegerField(default=999,
@@ -22,7 +22,7 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    # 文章标签
+    """文章标签"""
     name = models.CharField('文章标签',
                             max_length=100)
 
@@ -35,7 +35,7 @@ class Tag(models.Model):
 
 
 class Tui(models.Model):
-    # 推荐位
+    """推荐位"""
     name = models.CharField('推荐位', max_length=100)
 
     class Meta:
@@ -47,8 +47,9 @@ class Tui(models.Model):
 
 
 class Article(models.Model):
-    # 文章
-    title = models.CharField('标题', max_length=70)
+    """文章"""
+    title = models.CharField('标题',
+                             max_length=70)
     excerpt = models.TextField('摘要',
                                max_length=200,
                                blank=True)
@@ -112,7 +113,7 @@ class Article(models.Model):
 
 
 class Banner(models.Model):
-    # 轮播图
+    """轮播图"""
     text_info = models.CharField('标题', max_length=50, default='')
     img = models.ImageField('轮播图', upload_to='banner/')
     link_url = models.URLField('图片链接', max_length=100)
@@ -127,7 +128,7 @@ class Banner(models.Model):
 
 
 class Link(models.Model):
-    # 友情链接
+    """友情链接"""
     name = models.CharField('链接名称', max_length=20)
     link_url = models.URLField('网址', max_length=100)
 
@@ -160,6 +161,7 @@ class SiteInfo(models.Model):
 
 
 class Comment(models.Model):
+    """评论"""
     name = models.CharField(verbose_name='评论者',
                             max_length=30)
     email = models.EmailField(verbose_name='邮箱',
@@ -179,9 +181,7 @@ class Comment(models.Model):
                                         auto_now=True)
 
     def save(self, *args, **kwargs):
-        """
-        获取用户头像并保存URL 用户头像路径
-        """
+        """获取用户头像并保存URL 用户头像路径"""
         user = Comment.objects.filter(email=self.email)
         print(user)
         if user:

@@ -1,20 +1,32 @@
 <div class="pagination">
   <ul>
-    {% if article_list.has_previous %}
+    {% if pages.has_previous %}
       <li class="prev-page">
-        <a href="?page={{ article_list.previous_page_number }}">上一页</a>
+        <a href="?page={{ pages.previous_page_number }}">上一页</a>
+      </li>
+    {% else %}
+      <li class="prev-page">
+        <span>上一页</span>
       </li>
     {% endif %}
     {% for page in paginator.page_range %}
       <li>
-        <a href="?page={{ page }}">{{ page }}</a>
+        {% if page == pages.number %}
+          <a class="active" href="?page={{ page }}">{{ page }}</a>
+        {% else %}
+          <a href="?page={{ page }}">{{ page }}</a>
+        {% endif %}
       </li>
     {% endfor %}
-    {% if article_list.has_previous %}
+    {% if pages.has_next %}
       <li class="next-page">
-        <a href="?page={{ article_list.next_page_number }}">上一页</a>
+        <a href="?page={{ pages.next_page_number }}">下一页</a>
+      </li>
+    {% else %}
+      <li class="next-page">
+        <span>下一页</span>
       </li>
     {% endif %}
   </ul>
-  <p>共{{ paginator.count }}篇博文，当前{{ article_list.number }}页，共{{ paginator.num_pages }}页</p>
+  <p>共{{ paginator.count }}篇博文，当前{{ pages.number }}页，共{{ paginator.num_pages }}页</p>
 </div>

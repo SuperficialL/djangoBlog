@@ -15,55 +15,48 @@
         <li><span class="active">正文</span></li>
       </ul>
       <article class="article">
-        <div class="post-main">
-          <h2 class="title">{{ article.title }}</h2>
-          <div class="meta">
-            <span class="item">分类：<a href="{% url 'category' article.category.id %}">
+        <h2 class="title">{{ article.title }}</h2>
+        <div class="meta">
+            <span>分类：<a href="{% url 'category' article.category.id %}">
               {{ article.category.name }}</a>
             </span>
-            <span class="item">作者：{{ article.user }}</span>
-            <span class="item">浏览：{{ article.views }}</span>
-            <span class="item">{{ article.created_time }}</span>
+          <span>作者：{{ article.user }}</span>
+          <span>浏览：{{ article.views }}</span>
+          <span>时间：{{ article.created_time }}</span>
+          <span>评论：{{ article.comment_set.all.count }}</span>
+        </div>
+        <article class="article-content">
+          {{ article.body|safe }}
+        </article>
+        <div class="post-tag">
+          <span class="fa fa-tags" aria-hidden="true"></span>标签：
+          {% for tag in article.tags.all %}
+            <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+          {% endfor %}
+        </div>
+        <div>
+          <div><b>上一篇：</b>
+            {% if article.prev_article %}
+              <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
+                {{ article.prev_article.title }}
+              </a>
+            {% else %}
+              已经是第一篇了！
+            {% endif %}
           </div>
-          <div class="post-con">
-            <article class="article-content">
-              {{ article.body|safe }}
-            </article>
-
-            <div class="post-tag">
-              <span class="fa fa-tags" aria-hidden="true"></span>标签：
-              {% for tag in article.tags.all %}
-                <a href="{% url 'index' %}tag/{{ tag.name }}" rel="tag">{{ tag.name }}</a>
-              {% endfor %}
-            </div>
-            <div>
-              <div><b>上一篇：</b>
-                {% if article.prev_article %}
-                  <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
-                    {{ article.prev_article.title }}
-                  </a>
-                {% else %}
-                  没有了
-                {% endif %}
-              </div>
-              <div><b>下一篇：</b>
-                {% if article.next_article %}
-                  <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
-                    {{ article.next_article.title }}
-                  </a>
-                {% else %}
-                  没有了
-                {% endif %}
-              </div>
-            </div>
+          <div><b>下一篇：</b>
+            {% if article.next_article %}
+              <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
+                {{ article.next_article.title }}
+              </a>
+            {% else %}
+              已经是最后一篇了！
+            {% endif %}
           </div>
         </div>
       </article>
-      <!-- /文章 -->
       <div class="recommend">
-        <div class="head clearfix">
-          <span class="sp">您可能感兴趣的:</span>
-        </div>
+        <h4 class="title">您可能感兴趣的:</h4>
         <ul>
           {% for article in hot %}
             <li>
@@ -71,8 +64,8 @@
                 <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
                   <img src="{{ article.img.url }}"
                        alt="{{ article.title }}"
-                       class="wp-post-image" width="145"
-                       height="100"/></a>
+                       class="wp-post-image">
+                </a>
               </div>
               <a class="description" href="{% url 'detail' article.pk %}" rel="bookmark"
                  title="{{ article.title }}">{{ article.title }}</a>
@@ -86,4 +79,8 @@
       {% include 'sidebar.html' %}
     </aside>
   </div>
+{% endblock %}
+
+{% block js %}
+
 {% endblock %}
