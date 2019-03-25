@@ -24,7 +24,7 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '134.175.3.213', '127.0.0.1']
 
 # Application definition
 
@@ -118,15 +118,19 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 # 设置静态文件路径
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static').replace('\\', '/'),
-)
+# 部署网站时搜集静态文件
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 搜集静态文件时要注释 STATICFILES_DIRS
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # 设置文件上传路径
 MEDIA_URL = '/media/'
