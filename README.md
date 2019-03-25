@@ -27,3 +27,7 @@ python manage.py runserver
 `apt install nginx`
 ## 创建配置文件djangoBlog.conf到 `/etc/nginx/conf.d/`目录下
  
+ ## 安装supervisor守护uwsgi进程，防止uwsgi发生意外，会自动的重启
+```
+pip install supervisor
+```
