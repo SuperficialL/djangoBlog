@@ -1,49 +1,46 @@
 ﻿{% extends "base.html" %}
 {% block content %}
   <section class="section">
-    <div class="main">
+    <div class="container">
       <div class="content">
         <!-- 轮播图 -->
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">
-            {% for foo in banner %}
-              {% if forloop.counter0 == 0 %}
-                <li data-target="#carousel-example-generic"
-                    data-slide-to="{{ forloop.counter }}"
-                    class="active">
-                </li>
-              {% else %}
-                <li data-target="#carousel-example-generic"
-                    data-slide-to="{{ forloop.counter }}">
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ol>
-          <div class="carousel-inner" role="listbox">
-            {% for foo in banner %}
-              {% if forloop.counter0 == 0 %}
-                <div class="item active">
-                  <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
-                  <p class="carousel-caption"></p>
-                </div>
-              {% else %}
-                <div class="item">
-                  <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
-                  <p class="carousel-caption"></p>
-                </div>
-              {% endif %}
-            {% endfor %}
+        <div class="carousel">
+          <!-- 轮播图片 -->
+          <div class="carousel-inner">
+            <ul>
+              {% for foo in banner %}
+                {% if forloop.counter0 == 0 %}
+                  <li class="item active">
+                    <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
+                    <p class="carousel-caption"></p>
+                  </li>
+                {% else %}
+                  <li class="item">
+                    <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
+                    <p class="carousel-caption"></p>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
           </div>
-          <!-- Controls -->
-          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+          <!-- 左右控制器 -->
+          <a class="prev carousel-control">
+            <i class="fa fa-chevron-left"></i>
           </a>
-          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+          <a class="next carousel-control">
+            <i class="fa fa-chevron-right"></i>
           </a>
+          <!-- 底部小圆点 -->
+          <ul class="carousel-indicators">
+            {% for foo in banner %}
+              {% if forloop.counter0 == 0 %}
+                <li class="active">
+                </li>
+              {% else %}
+                <li></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
         </div>
         <!-- 轮播图 -->
         <section class="article-wrap">
@@ -54,6 +51,7 @@
             <article class="article-list">
               <a href="{% url 'detail' article.id %}"
                  title="{{ article.title }}"
+                 class="thumbnail-wrap"
               >
                 <img src="{{ article.img.url }}"
                      alt="{{ article.title }}"
@@ -89,7 +87,7 @@
                       {{ article.comment_set.all.count }}
                     </span>
                   </div>
-                  <a class="label label-info" href="{% url 'detail' article.pk %}">
+                  <a class="label label-info detail-btn" href="{% url 'detail' article.pk %}">
                     阅读详情
                   </a>
                 </div>
@@ -104,4 +102,7 @@
       </div>
     </div>
   </section>
+{% endblock %}
+{% block js %}
+  <script src="{% static 'js/banner.js' %}"></script>
 {% endblock %}

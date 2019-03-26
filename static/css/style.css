@@ -17,7 +17,7 @@ body {
     position: relative;
 }
 
-ul {
+ul, ol {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -29,6 +29,12 @@ img {
     width: 100%;
 }
 
+input {
+    outline: 0;
+    border: 0;
+    background: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
@@ -37,27 +43,181 @@ p {
     margin: 0;
 }
 
-a:hover {
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+
+a {
+    color: #777;
+    transition: .5s;
     text-decoration: none;
 }
 
-
-/* 主体内容样式 */
-
-.main {
-    display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    width: 1200px;
-    margin: 20px auto 0;
+a:hover {
+    color: #337ab7;
+    text-decoration: none;
 }
 
-.main .content {
+/* 公用样式 */
+.container {
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* 头部样式 */
+.header {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background: #f8f8f8;
+}
+
+.header .header-wrapper {
+    width: 100%;
+}
+
+.header .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.header .header-inner .nav ul {
+    display: flex;
+}
+
+.header .header-inner .nav ul li {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-right: 30px;
+}
+
+.header .header-inner .search-box {
+    display: flex;
+    align-items: center;
+}
+
+.header .header-inner .search-box form {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.header .header-inner .search-box .search {
+    width: 160px;
+    height: 30px;
+    padding: 0 5px;
+}
+
+.header .header-inner .search-box .fa-search {
+    width: 30px;
+    height: 30px;
+    background: #e9eaed;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+/* 轮播样式 */
+.carousel {
+    position: relative;
+}
+
+.carousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    height: 430px;
+    overflow: hidden;
+}
+.carousel .carousel-inner ul {
+    width: 500%;
+    height: 100%;
+}
+
+.carousel .carousel-inner .item {
+    display: none;
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+
+.carousel .carousel-inner .item.active {
+    display: block;
+}
+
+
+.carousel .carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.carousel .carousel-control:hover,
+.carousel .carousel-control:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
+.carousel .carousel-control i {
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    font-size: 30px;
+}
+
+.carousel .carousel-control.prev {
+    left: 0;
+}
+
+.carousel .carousel-control.next {
+    right: 0;
+}
+
+.carousel .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel .carousel-indicators li {
+    width: 13px;
+    height: 13px;
+    margin: 0 5px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.carousel .carousel-indicators li.active {
+    background-color: #f00;
+}
+
+/* 主体内容样式 */
+.section .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container .content {
     width: 860px;
 }
 
-.main .sidebar {
+.container .sidebar {
     width: 300px;
 }
 
@@ -98,6 +258,20 @@ a:hover {
     border-bottom: 1px solid #eee;
 }
 
+.article-list .thumbnail-wrap {
+    margin-right: 10px;
+}
+
+.article-list .thumbnail-wrap .thumbnail {
+    display: block;
+    width: 240px;
+    height: 160px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border-radius: 4px;
+    transition: border .2s ease-in-out;
+}
+
 .article-list:last-child {
     margin-bottom: 20px;
 }
@@ -109,9 +283,12 @@ a:hover {
 }
 
 .article-list .article-inner .title {
-    margin-bottom: 7px;
-    padding-bottom: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 500;
+    font-size: 18px;
 }
 
 .article-list .article-inner .summary {
@@ -147,15 +324,36 @@ a:hover {
 }
 
 .category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+
+}
+
+.category .title {
+    padding: 10px;
     font-size: 16px;
     color: #393939;
     border-left: 4px solid #d9534f;
-    padding: 5px 0 5px 18px;
     text-align: left;
     font-weight: bold;
 }
 
+.category .count {
+    margin-right: 10px;
+    letter-spacing: 4px;
+}
+
 /* 文章详情页样式 */
+section .breadcrumb {
+    display: flex;
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px
+}
+
 .article {
     margin-bottom: 25px;
     padding: 20px 30px 30px;
@@ -471,7 +669,7 @@ a:hover {
 }
 
 .aside .tags li {
-    margin: 10px 6px 0 0;
+    margin: 0 6px 10px 0;
     padding: 4px 8px;
     background-color: #F1F1F1;
     color: #3498DB;
@@ -480,68 +678,14 @@ a:hover {
     transition: border-radius .4s linear;
 }
 
+.aside .tags li a {
+    display: block;
+}
+
 .aside .tags li:hover {
     background-color: #d9534f;
     color: #FFF;
     border-radius: 0;
-}
-
-
-.reshare {
-    margin-top: 50px;
-    width: 180px;
-}
-
-.reshare-wx, .reshare-wb {
-    margin-right: 25px;
-    position: relative;
-    width: 64px;
-    height: 64px;
-    cursor: pointer;
-}
-
-.s-wechat-hover {
-    display: none;
-    position: absolute;
-    z-index: 999999;
-    left: -20px;
-    top: -250px;
-    padding: 15px;
-    background: #fff;
-    font-size: 14px;
-    border: 1px solid #dedede;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
-    border-radius: 15px;
-}
-
-.s-wechat-hover p {
-    color: #999;
-    text-align: center;
-}
-
-.s-wechat-hover img {
-    width: 200px;
-    height: 200px;
-}
-
-.post_icon_wx {
-    display: block;
-    width: 64px;
-    height: 64px;
-    color: #43c100;
-}
-
-.post_icon_wx a, .post_icon_wx:hover {
-    color: #43c100;
-}
-
-.post_icon_wx:hover .s-wechat-hover {
-    display: block;
-}
-
-.reshare-wb, .reshare-wb a {
-    color: #e64a50;
 }
 
 /*推荐*/
@@ -637,7 +781,7 @@ a:hover {
 }
 
 
-/*底部*/
+/* 底部 */
 #footer {
     background-color: #232323;
     color: #CCC;
@@ -686,10 +830,85 @@ a:hover {
 
 
 @media screen and (max-width: 1024px) {
-    .section .main .content {
+    .container {
+        width: 90%;
+    }
+
+    .header .header-inner .search-box form {
+        width: 30px;
+        border: 0;
+    }
+
+    .header .search-box .search {
+        display: block;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        position: fixed;
+        z-index: 99;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        height: 50px;
+        padding: 0 5%;
+        border-top: 1px solid #e9eaed;
+        border-radius: 0;
+        -webkit-box-shadow: 0 2px 5px #e9eaed;
+        box-shadow: 0 2px 5px #e9eaed;
+        background: #fff;
+        -webkit-transition: .7s;
+        transition: .7s;
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+
+    .section .container .content {
         width: 100%;
     }
-    .section .main .sidebar {
+
+    .section .container .content .thumbnail {
+        margin-right: 10px;
+    }
+
+    .section .container .sidebar {
         display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .section .article-list {
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    .section .article-list .thumbnail-wrap {
+        width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .section .article-list .thumbnail-wrap .thumbnail {
+        width: auto;
+        height: auto;
+        max-height: 150px;
+    }
+
+    .section .article-list .article-inner {
+        width: 100%;
+    }
+
+    .section .article-list .article-inner .title {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .section .article-list .article-inner .article-info {
+        display: block;
+    }
+
+    .section .article-list .article-inner .article-info .detail-btn {
+        display: block;
+        margin-top: 10px;
+        padding: 10px 0;
+        text-align: center;
     }
 }

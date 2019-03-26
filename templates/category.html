@@ -3,7 +3,10 @@
   <section class="section">
     <div class="main">
       <div class="content">
-        <h4 class="category">分类：{{ category_name }}</h4>
+        <div class="category">
+          <h2 class="title">分类：{{ category_name }}</h2>
+          <p class="count">共{{ article_list.count }}篇</p>
+        </div>
         <section class="article-wrap">
           {% for article in pages.object_list %}
             <article class="article-list">
@@ -44,7 +47,7 @@
                       {{ article.comment_set.all.count }}
                     </span>
                   </div>
-                  <a class="label label-info" href="{% url 'detail' article.pk %}">
+                  <a class="label label-info detail-btn" href="{% url 'detail' article.pk %}">
                     阅读详情
                   </a>
                 </div>
