@@ -138,6 +138,7 @@ a:hover {
     height: 430px;
     overflow: hidden;
 }
+
 .carousel .carousel-inner ul {
     width: 500%;
     height: 100%;
@@ -354,6 +355,11 @@ section .breadcrumb {
     border-radius: 4px
 }
 
+.breadcrumb > li + li:before {
+    content: "/ ";
+    padding: 0 5px;
+}
+
 .article {
     margin-bottom: 25px;
     padding: 20px 30px 30px;
@@ -444,11 +450,11 @@ section .breadcrumb {
 
 /* 评论区样式 */
 .comments {
+    margin-bottom: 20px;
+    padding: 10px 15px;
     background-color: #fff;
     border-radius: 4px;
     overflow: hidden;
-    padding: 30px;
-    margin-bottom: 20px;
 }
 
 .comments h3 {
@@ -467,7 +473,6 @@ section .breadcrumb {
     display: block;
     width: 100%;
     margin-bottom: 10px;
-    padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
     line-height: 1.5;
     color: #4e585a;
@@ -475,6 +480,18 @@ section .breadcrumb {
     border: 1px solid #ccc;
     resize: none;
     border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.comments .comment-form .submit {
+    float: right;
+    display: block;
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #E74C3C;
+    cursor: pointer;
 }
 
 .comments .comment-form .comment-author-wrap {
@@ -493,7 +510,7 @@ section .breadcrumb {
 
 .comments .comment-form .comment-author-wrap .comment-inp input {
     width: calc(100% - 108px);
-    height: 30px;
+    height: 28px;
     padding: 0 20px;
     border: 1px solid #ddd;
 }

@@ -1,84 +1,86 @@
 ﻿{% extends "base.html" %}
 {% block content %}
-  <div class="main">
-    <section class="content">
-      <ul class="breadcrumb">
-        <li>您的位置</li>
-        <li>
-          <a href="{% url 'index' %}">首页</a>
-        </li>
-        <li>
-          <a href="{% url 'category' article.category.id %}">
-            {{ article.category.name }}
-          </a>
-        </li>
-        <li><span class="active">正文</span></li>
-      </ul>
-      <article class="article">
-        <h2 class="title">{{ article.title }}</h2>
-        <div class="meta">
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <ul class="breadcrumb">
+          <li>您的位置</li>
+          <li>
+            <a href="{% url 'index' %}">首页</a>
+          </li>
+          <li>
+            <a href="{% url 'category' article.category.id %}">
+              {{ article.category.name }}
+            </a>
+          </li>
+          <li><span class="active">正文</span></li>
+        </ul>
+        <article class="article">
+          <h2 class="title">{{ article.title }}</h2>
+          <div class="meta">
             <span>分类：<a href="{% url 'category' article.category.id %}">
               {{ article.category.name }}</a>
             </span>
-          <span>作者：{{ article.user }}</span>
-          <span>浏览：{{ article.views }}</span>
-          <span>时间：{{ article.created_time }}</span>
-          <span>评论：{{ article.comment_set.all.count }}</span>
-        </div>
-        <div class="article-content">
-          {{ article.body|safe }}
-        </div>
-        <div class="post-tag">
-          <span class="fa fa-tags" aria-hidden="true"></span>标签：
-          {% for tag in article.tags.all %}
-            <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
-          {% endfor %}
-        </div>
-        <div>
-          <div><b>上一篇：</b>
-            {% if article.prev_article %}
-              <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
-                {{ article.prev_article.title }}
-              </a>
-            {% else %}
-              已经是第一篇了！
-            {% endif %}
+            <span>作者：{{ article.user }}</span>
+            <span>浏览：{{ article.views }}</span>
+            <span>时间：{{ article.created_time }}</span>
+            <span>评论：{{ article.comment_set.all.count }}</span>
           </div>
-          <div><b>下一篇：</b>
-            {% if article.next_article %}
-              <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
-                {{ article.next_article.title }}
-              </a>
-            {% else %}
-              已经是最后一篇了！
-            {% endif %}
+          <div class="article-content">
+            {{ article.body|safe }}
           </div>
-        </div>
-      </article>
-      <div class="recommend">
-        <h4 class="title">您可能感兴趣的:</h4>
-        <ul>
-          {% for article in hot %}
-            <li>
-              <div class="pic">
-                <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
-                  <img src="{{ article.img.url }}"
-                       alt="{{ article.title }}"
-                       class="wp-post-image">
+          <div class="post-tag">
+            <span class="fa fa-tags" aria-hidden="true"></span>标签：
+            {% for tag in article.tags.all %}
+              <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+            {% endfor %}
+          </div>
+          <div>
+            <div><b>上一篇：</b>
+              {% if article.prev_article %}
+                <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
+                  {{ article.prev_article.title }}
                 </a>
-              </div>
-              <a class="description" href="{% url 'detail' article.pk %}" rel="bookmark"
-                 title="{{ article.title }}">{{ article.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
+              {% else %}
+                已经是第一篇了！
+              {% endif %}
+            </div>
+            <div><b>下一篇：</b>
+              {% if article.next_article %}
+                <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
+                  {{ article.next_article.title }}
+                </a>
+              {% else %}
+                已经是最后一篇了！
+              {% endif %}
+            </div>
+          </div>
+        </article>
+        <div class="recommend">
+          <h4 class="title">您可能感兴趣的:</h4>
+          <ul>
+            {% for article in hot %}
+              <li>
+                <div class="pic">
+                  <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
+                    <img src="{{ article.img.url }}"
+                         alt="{{ article.title }}"
+                         class="wp-post-image">
+                  </a>
+                </div>
+                <a class="description" href="{% url 'detail' article.pk %}" rel="bookmark"
+                   title="{{ article.title }}">{{ article.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% include 'comments.html' %}
       </div>
-      {% include 'comments.html' %}
-    </section>
-    <aside class="sidebar">
-      {% include 'sidebar.html' %}
-    </aside>
-  </div>
+      <aside class="sidebar">
+        {% include 'sidebar.html' %}
+      </aside>
+    </div>
+  </section>
 {% endblock %}
 
 {% block js %}

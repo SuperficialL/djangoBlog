@@ -3,6 +3,7 @@
   </h3>
   <form class="comment-form">
     <textarea name="comment" rows="4"></textarea>
+    <a href="" class="submit">评论</a>
     <div class="comment-author-wrap">
       <div class="comment-inp author">
         <label for="author">昵称(必填)</label>
@@ -20,7 +21,6 @@
         <p class="comment-tips">{{ url.msg }}</p>
       </div>
     </div>
-    <a href="" class="btn btn-primary pull-right">评论</a>
   </form>
   <ul class="comment-list">
     {% for comment in comment_list %}
