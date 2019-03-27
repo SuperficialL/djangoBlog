@@ -6,23 +6,21 @@
         <!-- 轮播图 -->
         <div class="carousel">
           <!-- 轮播图片 -->
-          <div class="carousel-inner">
-            <ul>
-              {% for foo in banner %}
-                {% if forloop.counter0 == 0 %}
-                  <li class="item active">
-                    <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
-                    <p class="carousel-caption"></p>
-                  </li>
-                {% else %}
-                  <li class="item">
-                    <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
-                    <p class="carousel-caption"></p>
-                  </li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </div>
+          <ul class="carousel-inner">
+            {% for foo in banner %}
+              {% if forloop.counter0 == 0 %}
+                <li class="item active">
+                  <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
+                  <p class="carousel-caption"></p>
+                </li>
+              {% else %}
+                <li class="item">
+                  <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
+                  <p class="carousel-caption"></p>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
           <!-- 左右控制器 -->
           <a class="prev carousel-control">
             <i class="fa fa-chevron-left"></i>
@@ -30,7 +28,7 @@
           <a class="next carousel-control">
             <i class="fa fa-chevron-right"></i>
           </a>
-          <!-- 底部小圆点 -->
+          <!-- 控制器 -->
           <ul class="carousel-indicators">
             {% for foo in banner %}
               {% if forloop.counter0 == 0 %}
