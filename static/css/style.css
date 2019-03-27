@@ -79,6 +79,7 @@ a:hover {
 
 .header .header-wrapper {
     width: 100%;
+    height: 100%;
 }
 
 .header .header-inner {
@@ -86,6 +87,16 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+}
+
+.header .header-inner .left {
+    display: flex;
+    align-items: center;
+}
+
+.header .header-inner .nav.show {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .header .header-inner .nav ul {
@@ -127,6 +138,59 @@ a:hover {
     cursor: pointer;
 }
 
+.header .header-inner .search-box .nav-collapse {
+    display: none;
+}
+
+.navicon {
+    position: relative;
+    display: block;
+    width: 30px;
+    height: 5px;
+    margin-left: 20px;
+    background-color: #000;
+}
+
+.navicon:before, .navicon:after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 5px;
+    position: absolute;
+    background: #000;
+    transition: all 500ms;
+}
+
+.navicon:before {
+    margin-top: -10px;
+}
+
+.navicon:after {
+    margin-top: 10px;
+}
+
+.close .navicon {
+    background: none;
+}
+
+.close .navicon:before {
+    margin-top: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.close .navicon:after {
+    margin-top: 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
 /* 轮播样式 */
 .carousel {
     position: relative;
@@ -135,20 +199,18 @@ a:hover {
 .carousel .carousel-inner {
     position: relative;
     width: 100%;
-    height: 430px;
+    height: 300px;
     overflow: hidden;
-}
-
-.carousel .carousel-inner ul {
-    width: 500%;
-    height: 100%;
 }
 
 .carousel .carousel-inner .item {
     display: none;
-    float: left;
-    width: 20%;
     height: 100%;
+    transition: all .7s;
+}
+
+.carousel .carousel-inner .item img {
+    height: 300px;
 }
 
 .carousel .carousel-inner .item.active {
@@ -190,12 +252,14 @@ a:hover {
 }
 
 .carousel .carousel-indicators {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 10px;
 }
 
 .carousel .carousel-indicators li {
+    display: inline-block;
     width: 13px;
     height: 13px;
     margin: 0 5px;
@@ -852,7 +916,7 @@ section .breadcrumb {
     }
 
     .header .header-inner .search-box form {
-        width: 30px;
+        width: auto;
         border: 0;
     }
 
@@ -882,6 +946,9 @@ section .breadcrumb {
         width: 100%;
     }
 
+    /*.section .container .content .carousel img {*/
+    /*width: auto;*/
+    /*}*/
     .section .container .content .thumbnail {
         margin-right: 10px;
     }
@@ -892,6 +959,51 @@ section .breadcrumb {
 }
 
 @media screen and (max-width: 768px) {
+    .header .header-inner .nav {
+        position: fixed;
+        overflow-y: scroll;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 86%;
+        height: 100%;
+        opacity: 0;
+        text-align: center;
+        background: #9466ff;
+        color: #fff;
+        transition: .5s;
+        transform: translateX(-100%);
+    }
+
+    .header .header-inner .nav ul {
+        display: block;
+        height: 100%;
+    }
+
+    .header .header-inner .nav ul li {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        z-index: 999;
+    }
+
+    .header .header-inner .nav ul li a {
+        display: block;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        color: #fff;
+    }
+
+    .header .header-inner .search-box .nav-collapse {
+        display: block;
+    }
+
+    .header .header-inner .search-box .fa-search {
+        display: none;
+    }
+
     .section .article-list {
         flex-wrap: wrap;
         height: auto;
@@ -907,6 +1019,7 @@ section .breadcrumb {
         width: auto;
         height: auto;
         max-height: 150px;
+        margin:auto;
     }
 
     .section .article-list .article-inner {
