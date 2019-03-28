@@ -676,10 +676,6 @@ section .breadcrumb {
     font-size: 16px;
 }
 
-.hot-list li {
-    margin-left: -20px;
-}
-
 .hot-list li a {
     position: relative;
     display: block;
