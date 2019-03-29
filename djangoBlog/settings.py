@@ -24,10 +24,12 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 通过判断主机ip来实现是否开启debug模式
-if socket.gethostbyname(socket.gethostname())[:3] == '134':
-    DEBUG = False
-else:
-    DEBUG = True
+# if socket.gethostbyname(socket.gethostname())[:3] == '134':
+#     DEBUG = False
+# else:
+#     DEBUG = True
+
+DEBUG = True
 
 ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '127.0.0.1']
 
