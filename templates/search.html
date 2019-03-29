@@ -1,16 +1,18 @@
 ﻿{% extends 'base.html' %}
 {% block content %}
   <section class="section">
-    <div class="main">
+    <div class="container">
       <div class="content">
-        <div class="main-title">
-          <h4 class="category">关键词：{{ keyword }}</h4>
+        <div class="category">
+          <h4 class="title">关键词：{{ keyword }}</h4>
         </div>
         <section class="article-wrap">
           {% if pages.object_list %}
             {% for article in pages.object_list %}
               <article class="article-list">
-                <a href="{% url 'detail' article.pk %}">
+                <a href="{% url 'detail' article.pk %}"
+                   title="{{ article.title }}"
+                   class="thumbnail-wrap">
                   <img src="{{ article.img.url }}"
                        alt="{{ article.title }}" class="thumbnail"/>
                 </a>

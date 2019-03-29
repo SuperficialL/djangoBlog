@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo, Comment
+from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo
 
 
 @admin.register(Article)
@@ -18,6 +18,7 @@ class ArticleAdmin(admin.ModelAdmin):
         这个方法自定义扩展要显示的评论数量字段
         """
         return obj.comment_set.all().count()
+    comment_count.short_description = '评论数'
 
 
 @admin.register(Banner)
@@ -48,8 +49,3 @@ class LinkAdmin(admin.ModelAdmin):
 @admin.register(SiteInfo)
 class SiteInfoAdmin(admin.ModelAdmin):
     list_display = ('site_name', 'keywords', 'desc', 'copyright', 'code')
-
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'url', 'article_id', 'created_time')

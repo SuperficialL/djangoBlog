@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
-from blog.models import Category, Banner, Article, Tag, Link, Comment
+from blog.models import Category, Banner, Article, Tag, Link
+from comment.models import Comment
 from .utils import get_pages
 
 

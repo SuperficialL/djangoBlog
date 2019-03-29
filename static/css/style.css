@@ -527,13 +527,13 @@ section .breadcrumb {
     font-weight: bold;
 }
 
-.comments .comment-form {
+.comments #comment-form {
     overflow: hidden;
     margin-bottom: 30px;
     position: relative;
 }
 
-.comments .comment-form textarea {
+.comments #comment-form textarea {
     display: block;
     width: 100%;
     margin-bottom: 10px;
@@ -547,8 +547,17 @@ section .breadcrumb {
     box-sizing: border-box;
 }
 
-.comments .comment-form .submit {
-    float: right;
+.comments #comment-form .operation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comments #comment-form .rep-to.hidden {
+    display: none;
+}
+
+.comments #comment-form .submit {
     display: block;
     width: 40px;
     height: 30px;
@@ -558,7 +567,7 @@ section .breadcrumb {
     cursor: pointer;
 }
 
-.comments .comment-form .comment-author-wrap {
+.comments #comment-form .comment-author-wrap {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -566,20 +575,20 @@ section .breadcrumb {
     padding: 20px 0;
 }
 
-.comments .comment-form .comment-author-wrap .comment-inp {
+.comments #comment-form .comment-author-wrap .comment-inp {
     position: relative;
     width: 51%;
     margin-bottom: 10px;
 }
 
-.comments .comment-form .comment-author-wrap .comment-inp input {
+.comments #comment-form .comment-author-wrap .comment-inp input {
     width: calc(100% - 108px);
     height: 28px;
     padding: 0 20px;
     border: 1px solid #ddd;
 }
 
-.comments .comment-form .comment-author-wrap .comment-inp label {
+.comments #comment-form .comment-author-wrap .comment-inp label {
     background: #f1f1f1;
     position: absolute;
     color: #555;
@@ -997,7 +1006,7 @@ section .breadcrumb {
     }
 
     .header .header-inner .search-box .fa-search {
-        display: none;
+        display: block;
     }
 
     .section .article-list {
@@ -1015,7 +1024,7 @@ section .breadcrumb {
         width: auto;
         height: auto;
         max-height: 150px;
-        margin:auto;
+        margin: auto;
     }
 
     .section .article-list .article-inner {

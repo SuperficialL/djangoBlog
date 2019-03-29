@@ -1,13 +1,17 @@
 <div class="comments">
   <h3 class="comment-title">评论({{ comment_list.count }})
   </h3>
-  <form class="comment-form">
+  <form id="comment-form">
+    {% csrf_token %}
     <textarea name="comment" rows="4"></textarea>
-    <a href="" class="submit">评论</a>
+    <div class="operation">
+      <span class="rep-to"></span>
+      <a class="submit">评论</a>
+    </div>
     <div class="comment-author-wrap">
       <div class="comment-inp author">
         <label for="author">昵称(必填)</label>
-        <input type="text" id='author' name='author' placeholder="昵称">
+        <input type="text" id='author' data-id="{{ article.pk }}" name='author' placeholder="昵称">
         <p class="comment-tips">{{ author.msg }}</p>
       </div>
       <div class="comment-inp email">
@@ -25,14 +29,16 @@
   <ul class="comment-list">
     {% for comment in comment_list %}
       <li class="comment-item" id="comment-{{ comment.pk }}">
-        <img src="{{ comment.avatar.url }}" alt="" class="avatar">
+        <img src="{{ comment.avatar.url }}" alt="{{ comment.name }}" class="avatar">
         <div class="text">{{ comment.content }}</div>
         <div class="footer">
           <span class="user">{{ comment.name }}</span>
           <time>{{ comment.created_time }}</time>
-          <a href="" class="reply">回复</a>
+          <a href="#comment-form" class="reply">回复</a>
         </div>
       </li>
+    {% empty %}
+      <li>暂无评论</li>
     {% endfor %}
   </ul>
 </div>

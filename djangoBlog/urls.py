@@ -27,6 +27,7 @@ urlpatterns = [
     path('tag/<tag>', views.tag, name='tags'),
     path('search/', views.search, name='search'),
     path('about/', views.about, name='about'),
+    path('comment/', include('comment.urls')),
     path('ueditor/', include('DjangoUeditor.urls')),
     re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,11 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# 通过判断主机ip来实现是否开启debug模式
+if socket.gethostbyname(socket.gethostname())[:3] == '134':
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '134.175.3.213', '127.0.0.1', '192.168.2.113']
-
-# Application definition
+ALLOWED_HOSTS = ['zhangwurui.com', '*.zhangwurui.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
+    'comment.apps.CommentConfig',
     'DjangoUeditor',
 ]
+# Application definition
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
