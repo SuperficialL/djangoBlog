@@ -29,7 +29,7 @@ if socket.gethostbyname(socket.gethostname())[:3] == '134':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['zhangwurui.com', '*.zhangwurui.com', '127.0.0.1']
+ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
