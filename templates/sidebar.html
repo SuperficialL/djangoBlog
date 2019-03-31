@@ -14,7 +14,7 @@
     <ol class="hot-list">
         {% for article in hot %}
             <li>
-                <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
+                <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
                     {{ article.title }}
                 </a>
             </li>
@@ -27,13 +27,13 @@
         {% for article in recommend %}
             <li>
                 <div class="img">
-                    <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
+                    <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
                         <img src="{{ article.img.url }}"
                              alt="{{ article.title }}"/>
                     </a>
                 </div>
                 <p class="text">
-                    <a href="{% url 'detail' article.pk %}">
+                    <a href="{% url 'blog:detail' article.pk %}">
                         {{ article.title }}
                     </a>
                 </p>
@@ -46,7 +46,7 @@
     <ul class="tags">
         {% for tag in tags %}
             <li>
-                <a href="{% url 'tags' tag.name %}">
+                <a href="{% url 'blog:tags' tag.name %}">
                     {{ tag.name }}
                 </a>
             </li>

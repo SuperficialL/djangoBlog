@@ -5,6 +5,7 @@ from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'title', 'tui', 'user', 'views', 'comment_count', 'created_time')
+    list_filter = ('category', 'tui', 'user', 'created_time')
     # 文章列表里显示想要显示的字段
     list_per_page = 50
     # 满50条数据就自动分页
@@ -18,34 +19,41 @@ class ArticleAdmin(admin.ModelAdmin):
         这个方法自定义扩展要显示的评论数量字段
         """
         return obj.comment_set.all().count()
+
     comment_count.short_description = '评论数'
 
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('id', 'text_info', 'img', 'link_url', 'is_active')
+    list_filter = ('text_info', 'img', 'link_url', 'is_active')
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'index')
+    list_filter = ('name', 'index')
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    list_filter = ('name',)
 
 
 @admin.register(Tui)
 class TuiAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    list_filter = ('name',)
 
 
 @admin.register(Link)
 class LinkAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'link_url')
+    list_filter = ('name', 'link_url')
 
 
 @admin.register(SiteInfo)
 class SiteInfoAdmin(admin.ModelAdmin):
-    list_display = ('site_name', 'keywords', 'desc', 'copyright', 'code')
+    list_display = ('id', 'site_name', 'keywords', 'desc', 'copyright', 'code')
+    list_filter = ('site_name', 'keywords', 'desc', 'copyright', 'code')

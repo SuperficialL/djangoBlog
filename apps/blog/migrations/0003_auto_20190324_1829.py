@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('url', models.URLField(blank=True, verbose_name='网站地址')),
                 ('content', models.TextField(blank=True, null=True, verbose_name='评论内容')),
                 ('created_time', models.DateTimeField(auto_now=True, verbose_name='评论时间')),
-                ('article_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.Article', verbose_name='所属文章')),
+                ('article_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='apps.Article', verbose_name='所属文章')),
             ],
             options={
                 'verbose_name': '评论',

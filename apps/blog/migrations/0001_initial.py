@@ -7,7 +7,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -21,7 +20,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=70, verbose_name='标题')),
                 ('excerpt', models.TextField(blank=True, max_length=200, verbose_name='摘要')),
-                ('img', models.ImageField(blank=True, null=True, upload_to='article_img/%Y/%m/%d/', verbose_name='文章图片')),
+                ('img',
+                 models.ImageField(blank=True, null=True, upload_to='article_img/%Y/%m/%d/', verbose_name='文章图片')),
                 ('body', DjangoUeditor.models.UEditorField(blank=True, verbose_name='内容')),
                 ('views', models.PositiveIntegerField(default=0, verbose_name='阅读量')),
                 ('created_time', models.DateTimeField(auto_now_add=True, verbose_name='发布时间')),
@@ -95,21 +95,24 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='article',
             name='category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='blog.Category', verbose_name='分类'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING,
+                                    to='Category', verbose_name='分类'),
         ),
         migrations.AddField(
             model_name='article',
             name='tags',
-            field=models.ManyToManyField(blank=True, to='blog.Tag', verbose_name='标签'),
+            field=models.ManyToManyField(blank=True, to='Tag', verbose_name='标签'),
         ),
         migrations.AddField(
             model_name='article',
             name='tui',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='blog.Tui', verbose_name='推荐位'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING,
+                                    to='Tui', verbose_name='推荐位'),
         ),
         migrations.AddField(
             model_name='article',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='作者'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL,
+                                    verbose_name='作者'),
         ),
     ]

@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from DjangoUeditor.models import UEditorField
 
 
-
 class Category(models.Model):
     """文章分类"""
     name = models.CharField('博客分类',

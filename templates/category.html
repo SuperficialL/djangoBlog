@@ -10,7 +10,7 @@
         <section class="article-wrap">
           {% for article in pages.object_list %}
             <article class="article-list">
-              <a href="{% url 'detail' article.id %}"
+              <a href="{% url 'blog:detail' article.id %}"
                  title="{{ article.title }}"
                  class="thumbnail-wrap"
               >
@@ -20,7 +20,7 @@
               </a>
               <div class="article-inner">
                 <h3 class="title">
-                  <a href="{% url 'detail' article.id %}"
+                  <a href="{% url 'blog:detail' article.id %}"
                      title="{{ article.title }}">
                     {{ article.title }}
                   </a>
@@ -31,7 +31,7 @@
                 <div class="article-info">
                   <div class="meta">
                     <span class="label label-info">
-                      <a href="{% url 'category' article.category.pk %}">
+                      <a href="{% url 'blog:category' article.category.pk %}">
                         {{ article.category.name }}
                       </a>
                     </span>
@@ -48,7 +48,7 @@
                       {{ article.comment_set.all.count }}
                     </span>
                   </div>
-                  <a class="label label-info detail-btn" href="{% url 'detail' article.pk %}">
+                  <a class="label label-info detail-btn" href="{% url 'blog:detail' article.pk %}">
                     阅读详情
                   </a>
                 </div>

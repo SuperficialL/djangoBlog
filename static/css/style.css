@@ -454,6 +454,15 @@ section .breadcrumb {
     color: #2a2a2a;
 }
 
+.article-content {
+    padding: 30px;
+}
+
+.article-content h3 {
+    padding-left: 5px;
+    border-left: 5px solid #9466ff;
+}
+
 .article-content img {
     display: block;
     margin: 20px auto 20px;
@@ -496,15 +505,15 @@ section .breadcrumb {
 }
 
 .post-tag a {
-    color: #999;
+    display: inline-block;
     margin: 0 6px 12px 6px;
+    padding: 5px 12px;
     background-clip: border-box;
     background-color: #f3f3f3;
+    color: #999;
     border-radius: 2px;
     box-shadow: none;
     line-height: 18px;
-    padding: 5px 12px;
-    display: inline-block;
 }
 
 .post-tag a:hover {
@@ -537,8 +546,6 @@ section .breadcrumb {
     display: block;
     width: 100%;
     margin-bottom: 10px;
-    font-size: 0.875rem;
-    line-height: 1.5;
     color: #4e585a;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -563,6 +570,7 @@ section .breadcrumb {
     height: 30px;
     line-height: 30px;
     text-align: center;
+    color: #fff;
     background-color: #E74C3C;
     cursor: pointer;
 }
@@ -951,9 +959,6 @@ section .breadcrumb {
         width: 100%;
     }
 
-    /*.section .container .content .carousel img {*/
-    /*width: auto;*/
-    /*}*/
     .section .container .content .thumbnail {
         margin-right: 10px;
     }
@@ -1045,5 +1050,12 @@ section .breadcrumb {
         margin-top: 10px;
         padding: 10px 0;
         text-align: center;
+    }
+
+    .section .content .comments #comment-form .comment-author-wrap .comment-inp {
+        width: 100%;
+    }
+    .section .content .comments #comment-form .comment-author-wrap .comment-inp label {
+        width: 75px;
     }
 }

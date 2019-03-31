@@ -1,5 +1,5 @@
 from django.db import models
-from blog.models import Article
+from apps.blog.models import Article
 from django.conf import settings
 from urllib.request import urlretrieve
 import hashlib

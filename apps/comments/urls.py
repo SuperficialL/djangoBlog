@@ -4,8 +4,10 @@
 # @Author Superficial
 # @File urls.py
 # @Software PyCharm
-from django.urls import path, include, re_path
-from comment import views
+from django.urls import path
+from apps.comments import views
+
+app_name = 'comments'
 
 urlpatterns = [
     path('add_comment/', views.add_comment, name='add_comment'),

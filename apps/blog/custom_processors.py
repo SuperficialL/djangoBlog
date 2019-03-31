@@ -1,4 +1,4 @@
-from blog.models import Category, Tag, Article, SiteInfo, Link
+from apps.blog.models import Category, Tag, Article, SiteInfo, Link
 
 
 def global_variable(request):

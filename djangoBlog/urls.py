@@ -17,17 +17,11 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf import settings
-from blog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('category/<int:pk>', views.category, name='category'),
-    path('detail/<int:pk>', views.detail, name='detail'),
-    path('tag/<tag>', views.tag, name='tags'),
-    path('search/', views.search, name='search'),
-    path('about/', views.about, name='about'),
-    path('comment/', include('comment.urls')),
+    path('', include('apps.blog.urls')),
+    path('comment/', include('apps.comments.urls')),
     path('ueditor/', include('DjangoUeditor.urls')),
     re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

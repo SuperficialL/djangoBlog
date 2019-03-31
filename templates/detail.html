@@ -9,10 +9,10 @@
         <ul class="breadcrumb">
           <li>您的位置</li>
           <li>
-            <a href="{% url 'index' %}">首页</a>
+            <a href="{% url 'blog:index' %}">首页</a>
           </li>
           <li>
-            <a href="{% url 'category' article.category.id %}">
+            <a href="{% url 'blog:category' article.category.id %}">
               {{ article.category.name }}
             </a>
           </li>
@@ -21,7 +21,7 @@
         <article class="article">
           <h2 class="title">{{ article.title }}</h2>
           <div class="meta">
-            <span>分类：<a href="{% url 'category' article.category.id %}">
+            <span>分类：<a href="{% url 'blog:category' article.category.id %}">
               {{ article.category.name }}</a>
             </span>
             <span>作者：{{ article.user }}</span>
@@ -35,13 +35,13 @@
           <div class="post-tag">
             <span class="fa fa-tags" aria-hidden="true"></span>标签：
             {% for tag in article.tags.all %}
-              <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+              <a href="{% url 'blog:tags' tag.name %}">{{ tag.name }}</a>
             {% endfor %}
           </div>
           <div>
             <div><b>上一篇：</b>
               {% if article.prev_article %}
-                <a href="{% url 'detail' article.prev_article.pk %}" class="article-tag">
+                <a href="{% url 'blog:detail' article.prev_article.pk %}" class="article-tag">
                   {{ article.prev_article.title }}
                 </a>
               {% else %}
@@ -50,7 +50,7 @@
             </div>
             <div><b>下一篇：</b>
               {% if article.next_article %}
-                <a href="{% url 'detail' article.next_article.pk %}" class="article-tag">
+                <a href="{% url 'blog:detail' article.next_article.pk %}" class="article-tag">
                   {{ article.next_article.title }}
                 </a>
               {% else %}
@@ -65,13 +65,13 @@
             {% for article in hot %}
               <li>
                 <div class="pic">
-                  <a href="{% url 'detail' article.pk %}" title="{{ article.title }}">
+                  <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
                     <img src="{{ article.img.url }}"
                          alt="{{ article.title }}"
                          class="wp-post-image">
                   </a>
                 </div>
-                <a class="description" href="{% url 'detail' article.pk %}" rel="bookmark"
+                <a class="description" href="{% url 'blog:detail' article.pk %}" rel="bookmark"
                    title="{{ article.title }}">{{ article.title }}</a>
               </li>
             {% endfor %}

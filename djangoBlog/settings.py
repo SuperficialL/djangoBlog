@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -24,15 +27,14 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 通过判断主机ip来实现是否开启debug模式
-# if socket.gethostbyname(socket.gethostname())[:3] == '134':
-#     DEBUG = False
-# else:
-#     DEBUG = True
+if socket.gethostbyname(socket.gethostname())[:3] == '134':
+    DEBUG = False
+else:
+    DEBUG = True
 
-DEBUG = True
+ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '127.0.0.1', '192.168.2.113']
 
-ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '127.0.0.1']
-
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,11 +42,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
-    'comment.apps.CommentConfig',
+]
+
+# 个人应用
+PERSONAL_APPS = [
+    'apps.blog.apps.BlogConfig',
+    'apps.comments.apps.CommentConfig',
+    'apps.accounts.apps.AccountsConfig'
+]
+
+# 第三方应用
+EXTRA_APPS = [
     'DjangoUeditor',
 ]
-# Application definition
+
+INSTALLED_APPS += PERSONAL_APPS + EXTRA_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,7 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'blog.custom_processors.global_variable',
+                'apps.blog.custom_processors.global_variable',
             ],
             'builtins': [
                 'django.templatetags.static'

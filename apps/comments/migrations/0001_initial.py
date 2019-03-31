@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -24,7 +23,9 @@ class Migration(migrations.Migration):
                 ('content', models.TextField(blank=True, null=True, verbose_name='评论内容')),
                 ('created_time', models.DateTimeField(auto_now=True, verbose_name='评论时间')),
                 ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.Article', verbose_name='所属文章')),
-                ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='comment.Comment', verbose_name='父评论')),
+                ('parent',
+                 models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='Comment',
+                                   verbose_name='父评论')),
             ],
             options={
                 'verbose_name': '评论',

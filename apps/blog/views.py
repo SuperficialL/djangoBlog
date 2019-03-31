@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import Http404
-from blog.models import Category, Banner, Article, Tag, Link
-from comment.models import Comment
-from .utils import get_pages
+from apps.blog.models import Category, Banner, Article, Tag
+from apps.comments.models import Comment
+from utils.utils import get_pages, total_info
 
 
 def index(request):
     """首页"""
+    total_info(request)
     banner = Banner.objects.filter(is_active=True)[0:4]
     tui = Article.objects.filter(tui__id=1)[:3]
     article_list = Article.objects.all().order_by('-id')
@@ -16,6 +17,7 @@ def index(request):
 
 def category(request, pk):
     """列表页"""
+    total_info(request)
     article_list = Article.objects.filter(category_id=pk)
     category_name = Category.objects.get(id=pk)
     paginator, pages = get_pages(request, article_list)
@@ -24,6 +26,7 @@ def category(request, pk):
 
 def detail(request, pk):
     """内容页"""
+    total_info(request)
     try:
         article = Article.objects.get(id=pk)
     except ValueError:
@@ -36,6 +39,7 @@ def detail(request, pk):
 
 def tag(request, tag):
     """标签页"""
+    total_info(request)
     article_list = Article.objects.filter(tags__name=tag)
     tag_name = Tag.objects.get(name=tag)
     paginator, pages = get_pages(request, article_list)
@@ -44,6 +48,7 @@ def tag(request, tag):
 
 def search(request):
     """搜索页"""
+    total_info(request)
     try:
         keyword = request.GET.get('search')
         if not keyword:

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <title>
     Superficial Blog | {% block title %}首页{% endblock %}
   </title>
@@ -22,26 +22,26 @@
       <div class="header-inner">
         <div class="left">
           <h1 class="logo">
-            <a href="{% url 'index' %}">Superficial</a>
+            <a href="{% url 'blog:index' %}">Superficial</a>
           </h1>
           <nav class="nav">
             <ul>
               <li class="active">
-                <a href="{% url 'index' %}">首页</a>
+                <a href="{% url 'blog:index' %}">首页</a>
               </li>
               {% for category in categories %}
                 <li>
-                  <a href="{% url 'category' category.id %}">{{ category.name }}</a>
+                  <a href="{% url 'blog:category' category.id %}">{{ category.name }}</a>
                 </li>
               {% endfor %}
               <li>
-                <a href="{% url 'about' %}">关于博主</a>
+                <a href="{% url 'blog:about' %}">关于博主</a>
               </li>
             </ul>
           </nav>
         </div>
         <div class="search-box">
-          <form action="{% url 'search' %}">
+          <form action="{% url 'blog:search' %}">
             <input type="text" name="search" class="search" placeholder="请输入关键字">
             <button type="submit">
               <i class="fa fa-search"></i>
