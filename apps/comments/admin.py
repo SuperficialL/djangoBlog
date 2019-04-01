@@ -6,4 +6,4 @@ from .models import Comment
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'url', 'article_id', 'created_time')
+    list_display = ('name', 'email', 'url', 'article_id', 'created_time', 'parent_id', 'browser', 'ip_addr')

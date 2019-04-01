@@ -9,16 +9,20 @@ from django.conf import settings
 import geoip2.database
 
 
-def ip_to_addr(ip):
+def ip_to_addr(request):
     """将IP转换成现实中的地理位置
     country = 国家
     province = 省
     city = 城市
     """
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        # 获取真实IP
+        ip = request.META['HTTP_X_FORWARDED_FOR']
+    else:
+        # 获取代理IP
+        ip = request.META['REMOTE_ADDR']
     reader = geoip2.database.Reader(settings.GEOIP_PATH)
-    ip = '103.46.244.103'
     response = reader.city(ip)
-    print(response.postal.code)
     province = ''
     city = ''
     try:
@@ -29,12 +33,12 @@ def ip_to_addr(ip):
         # 没有获取到键将错误写入日志
         pass
     if country != '中国':
-        return country
+        return ip, country
     if province and city:
         if province == city or city in province:
-            return province
-        return '%s%s' % (province, city)
+            return ip, province
+        return ip, '%s%s' % (province, city)
     elif province and not city:
-        return province
+        return ip, province
     else:
-        return country
+        return ip, country

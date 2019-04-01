@@ -1,11 +1,11 @@
 $(function () {
     $('.submit').click(function () {
         let btn_target = $(this),
-            comment = $("#comment-form textarea[name=comment]").val(),
+            content = $("#comment-form textarea[name=content]").val(),
             author = $("#comment-form input[name=author]"),
             email = $("#comment-form input[name=email]").val(),
             url = $("#comment-form input[name=url]").val();
-        if (comment.length === 0) {
+        if (content.length === 0) {
             alert('评论内容不能为空!');
             return;
         }
@@ -13,10 +13,10 @@ $(function () {
             url: "/comment/add_comment/",
             type: 'POST',
             data: {
-                'author': author.val(),
+                'name': author.val(),
                 'email': email,
                 'url': url,
-                'comment': comment,
+                'content': content,
                 'article': author.attr('data-id'),
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
             },

@@ -3,7 +3,7 @@
   </h3>
   <form id="comment-form">
     {% csrf_token %}
-    <textarea name="comment" rows="4"></textarea>
+    <textarea name="content" rows="4"></textarea>
     <div class="operation">
       <span class="rep-to"></span>
       <a class="submit">评论</a>
@@ -32,7 +32,7 @@
         <img src="{{ comment.avatar.url }}" alt="{{ comment.name }}" class="avatar">
         <div class="text">{{ comment.content }}</div>
         <div class="footer">
-          <span class="user">{{ comment.name }}</span>
+          <span class="user"><a href="{{ comment.url }}">{{ comment.name }}</a></span>
           <span class="addr">{{ comment.ip_addr }}</span>
           <span class="browser">{{ comment.browser }}</span>
           <time>{{ comment.created_time }}</time>

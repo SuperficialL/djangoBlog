@@ -11,6 +11,9 @@ from .models import Comment
 
 
 class CommentForm(forms.ModelForm):
+    article = forms.IntegerField(error_messages={"required": "必须传入评论文章的id！"})
+
     class Meta:
         model = Comment
-        fields = ['name', 'email', 'url', 'text', 'avatar', 'content', 'article', 'ip_addr', 'browser', 'parent']
+        fields = ['name', 'email', 'url', 'content']
+        exclude = ['article', 'avatar', 'parent', 'created_time', 'ip_addr', 'browser']

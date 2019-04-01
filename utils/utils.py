@@ -2,6 +2,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from apps.accounts.models import VisitNumber, DayNumber, UserIP
 from .ip_to_address import ip_to_addr
+import re
 
 
 def get_pages(request, list):
@@ -28,13 +29,9 @@ def total_info(request):
         visit_obj.count = 1
         visit_obj.save()
 
-    if 'HTTP_X_FORWARDED_FOR' in request.META:
-        # 获取真实IP
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-    else:
-        # 获取代理IP
-        ip = request.META['REMOTE_ADDR']
-    user_obj = UserIP.objects.filter(ip=str(ip))
+    ip, country = ip_to_addr(request)
+    # 获取ip地址
+    user_obj = UserIP.objects.filter(ip=ip)
     if user_obj:
         # 判断ip是否存在数据库
         user_obj.first().viewed()
@@ -45,7 +42,7 @@ def total_info(request):
         user_obj.end_point = end_point
         user_obj.count = 1
         try:
-            user_obj.ip_addr = ip_to_addr(ip)
+            user_obj.ip_addr = country
         except BaseException as e:
             print(e)
         user_obj.save()
@@ -61,3 +58,23 @@ def total_info(request):
         temp.dayTime = date
         temp.count = 1
     temp.save()
+
+
+def get_user_agent(request):
+    """检测浏览器类型"""
+    agent = request.META.get('HTTP_USER_AGENT', None)
+    pattern = r'[\w]+ [\d]+\.[\d]+'
+    user_agent = agent.lower().replace('/', ' ')
+    browser = re.findall(pattern, user_agent)
+    if 'safari' in browser[-1] and 'chrome' in browser[-2]:
+        browser = browser[-2]
+    else:
+        browser = browser[-1]
+    if 'qqbrowser' in browser:
+        """QQ浏览器"""
+        browser = browser.replace('qqb', 'QQB')
+    else:
+        """非QQ浏览器"""
+        browser = browser.capitalize()
+    print(browser, 'browser')
+    return browser
