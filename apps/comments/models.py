@@ -4,6 +4,8 @@ from django.conf import settings
 from urllib.request import urlretrieve
 import hashlib
 
+from django.db.models import Count
+
 
 # Create your models here.
 

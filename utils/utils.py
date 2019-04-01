@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from django.utils import timezone
 from apps.accounts.models import VisitNumber, DayNumber, UserIP
+from .ip_to_address import ip_to_addr
 
 
 def get_pages(request, list):
@@ -35,6 +36,7 @@ def total_info(request):
         # 获取代理IP
         ip = request.META['REMOTE_ADDR']
     user_obj = UserIP.objects.filter(ip=str(ip))
+    print(ip_to_addr(ip), 'ss')
     if user_obj:
         # 判断ip是否存在数据库
         user_obj.first().viewed()
@@ -44,6 +46,10 @@ def total_info(request):
         user_obj.ip = ip
         user_obj.end_point = end_point
         user_obj.count = 1
+        try:
+            user_obj.ip_addr = ip_to_addr(ip)
+        except BaseException as e:
+            print(e)
         user_obj.save()
 
     # 增加今日访问次数

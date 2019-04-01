@@ -146,6 +146,9 @@ STATIC_URL = '/static/'
 # 部署网站时搜集静态文件
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# 地理位置数据库
+GEOIP_PATH = os.path.join(BASE_DIR, 'static/real_address/GeoLite2-City.mmdb')
+
 # 搜集静态文件时要注释 STATICFILES_DIRS
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static').replace('\\', '/'),
