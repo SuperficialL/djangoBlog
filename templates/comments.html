@@ -33,6 +33,8 @@
         <div class="text">{{ comment.content }}</div>
         <div class="footer">
           <span class="user">{{ comment.name }}</span>
+          <span class="addr">{{ comment.ip_addr }}</span>
+          <span class="browser">{{ comment.browser }}</span>
           <time>{{ comment.created_time }}</time>
           <a href="#comment-form" class="reply">回复</a>
         </div>

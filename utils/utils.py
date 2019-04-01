@@ -19,7 +19,6 @@ def total_info(request):
     :param request: http请求
     """
     end_point = request.META.get('PATH_INFO', '/')
-    print(end_point, 'end')
     visit_obj = VisitNumber.objects.first()
     if visit_obj:
         # 判断对象是否存在
@@ -36,7 +35,6 @@ def total_info(request):
         # 获取代理IP
         ip = request.META['REMOTE_ADDR']
     user_obj = UserIP.objects.filter(ip=str(ip))
-    print(ip_to_addr(ip), 'ss')
     if user_obj:
         # 判断ip是否存在数据库
         user_obj.first().viewed()

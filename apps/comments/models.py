@@ -26,6 +26,10 @@ class Comment(models.Model):
     article = models.ForeignKey(Article,
                                 on_delete=models.CASCADE,
                                 verbose_name='所属文章')
+    ip_addr = models.CharField(verbose_name='IP地址',
+                               max_length=100)
+    browser = models.CharField(verbose_name='浏览器',
+                               max_length=100)
     created_time = models.DateTimeField(verbose_name='评论时间',
                                         auto_now=True)
     parent = models.ForeignKey('self',
