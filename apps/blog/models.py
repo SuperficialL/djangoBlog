@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from DjangoUeditor.models import UEditorField
-# from mdeditor import fields as md_models
+from mdeditor import fields as md_models
+import markdown
 
 
 class Category(models.Model):
@@ -63,18 +63,9 @@ class Article(models.Model):
                             verbose_name='文章图片',
                             blank=True,
                             null=True)
-    body = UEditorField('内容',
-                        width=800,
-                        height=500,
-                        toolbars="full",
-                        imagePath="upimg/",
-                        filePath="upfile/",
-                        upload_settings={"imageMaxSize": 1204000},
-                        settings={},
-                        command=None,
-                        blank=True
-                        )
-    # content = md_models.MDTextField(blank=True)
+    body = md_models.MDTextField(blank=True)
+    format_content = models.TextField(verbose_name='格式化内容',
+                                      blank=True)
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='作者')
@@ -90,9 +81,13 @@ class Article(models.Model):
     modified_time = models.DateTimeField('修改时间',
                                          auto_now=True)
 
-    # def save(self, *args, **kwargs):
-    #     self.content = self.body
-    #     super(Article, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.format_content = markdown.markdown(self.body.replace("\r\n", '  \n'), extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.toc',
+        ], safe_mode=True, enable_attributes=False)
+        super(Article, self).save(*args, **kwargs)
 
     def viewed(self):
         # 访问量加一

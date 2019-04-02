@@ -30,7 +30,7 @@
             <span>评论：{{ article.comment_set.all.count }}</span>
           </div>
           <div class="article-content">
-            {{ article.body|safe }}
+            {{ article.format_content|safe }}
           </div>
           <div class="post-tag">
             <span class="fa fa-tags" aria-hidden="true"></span>标签：
@@ -87,30 +87,10 @@
 {% endblock %}
 
 {% block js %}
+
   <script src="{% static 'js/prism.js' %}"></script>
   <script src="{% static 'js/commit.js' %}"></script>
   <script>
-      $(function () {
-          (function insertCodeElement(content, container) {
-              let $pres = $('.article-content').find('pre');
-              $pres.each(function (index, el) {
-                  let $el = $(el),
-                      html = $el.html(),
-                      code = document.createElement('code'),
-                      elClass = $el.attr('class');
-                  if (elClass) {
-                      // 获取 pre 标签中，class 属性中包含的本段代码所有的编程语言
-                      language = elClass.substring(6, elClass.indexOf(';'));
-                      code.className = `language-${language}`;
-                      code.innerHTML = html;
-                      $el.html(code);
-                  }
-              });
-              $(container).html(parent.innerHTML);
-              // 最后，调用 Prism 的方法来高亮代码
-              Prism.highlightAll();
-          })()
-
-      })
+        $('pre').addClass("line-numbers");
   </script>
 {% endblock %}

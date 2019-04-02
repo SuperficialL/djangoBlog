@@ -24,8 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.blog.urls')),
     path('comment/', include('apps.comments.urls')),
-    # path('mdeditor/', include('mdeditor.urls')),
-    path('ueditor/', include('DjangoUeditor.urls')),
+    path('mdeditor/', include('mdeditor.urls')),
     path('download/', views.download, name='download'),
     re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
