@@ -22,23 +22,28 @@ def ip_to_addr(request):
         # 获取代理IP
         ip = request.META['REMOTE_ADDR']
     reader = geoip2.database.Reader(settings.GEOIP_PATH)
-    response = reader.city(ip)
-    province = ''
-    city = ''
     try:
-        country = response.country.names['zh-CN']
-        province = response.subdivisions.most_specific.names["zh-CN"]
-        city = response.city.names['zh-CN']
-    except KeyError as e:
-        # 没有获取到键将错误写入日志
-        pass
-    if country != '中国':
-        return ip, country
-    if province and city:
-        if province == city or city in province:
+        response = reader.city(ip)
+        x = reader.city('192.168.2.113')
+        print(x, 'sss')
+        province = ''
+        city = ''
+        try:
+            country = response.country.names['zh-CN']
+            province = response.subdivisions.most_specific.names["zh-CN"]
+            city = response.city.names['zh-CN']
+        except KeyError as e:
+            # 没有获取到键将错误写入日志
+            pass
+        if country != '中国':
+            return ip, country
+        if province and city:
+            if province == city or city in province:
+                return ip, province
+            return ip, '%s%s' % (province, city)
+        elif province and not city:
             return ip, province
-        return ip, '%s%s' % (province, city)
-    elif province and not city:
-        return ip, province
-    else:
-        return ip, country
+        else:
+            return ip, country
+    except BaseException as e:
+        return '', ''

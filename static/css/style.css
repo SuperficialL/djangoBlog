@@ -194,28 +194,34 @@ a:hover {
 /* 轮播样式 */
 .carousel {
     position: relative;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+
 }
 
 .carousel .carousel-inner {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500%;
+    height: 100%;
 }
 
 .carousel .carousel-inner .item {
-    display: none;
+    float: left;
+    width: calc(100% / 5);
     height: 100%;
     transition: all .7s;
 }
 
 .carousel .carousel-inner .item img {
-    height: 300px;
+    height: inherit;
 }
 
-.carousel .carousel-inner .item.active {
-    display: block;
-}
+/*.carousel .carousel-inner .item.active {*/
+/*display: block;*/
+/*}*/
 
 
 .carousel .carousel-control {
@@ -1055,6 +1061,7 @@ section .breadcrumb {
     .section .content .comments #comment-form .comment-author-wrap .comment-inp {
         width: 100%;
     }
+
     .section .content .comments #comment-form .comment-author-wrap .comment-inp label {
         width: 75px;
     }

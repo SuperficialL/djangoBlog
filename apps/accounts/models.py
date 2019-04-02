@@ -16,6 +16,8 @@ class UserIP(models.Model):
                                  max_length=100)
     count = models.IntegerField(verbose_name='访问次数',
                                 default=0)
+    created_time = models.DateTimeField(verbose_name='最后访问时间',
+                                        default=timezone.now)
 
     def viewed(self):
         """更新用户访问量"""
