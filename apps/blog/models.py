@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from mdeditor import fields as md_models
 import markdown
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -159,16 +161,38 @@ class SiteInfo(models.Model):
 
 
 class Notice(models.Model):
-    """通知"""
-    info = models.CharField(verbose_name='信息',
+    """公告通知"""
+    text = models.CharField(verbose_name='信息',
                             max_length=300)
     created_time = models.DateTimeField(verbose_name='创建时间',
                                         auto_now_add=True)
 
     def __str__(self):
-        return self.info
+        return self.text
 
     class Meta:
         verbose_name = '博客事件信息'
         verbose_name_plural = verbose_name
         ordering = ['created_time']
+
+
+class Total(models.Model):
+    """统计文章数,分类数,标签数,评论数,访问总数"""
+    article_nums = models.IntegerField(verbose_name='文章数',
+                                       default=0)
+    comment_nums = models.IntegerField(verbose_name='分类数',
+                                       default=0)
+    tag_nums = models.IntegerField(verbose_name='标签数',
+                                   default=0)
+    category_nums = models.IntegerField(verbose_name='评论数',
+                                        default=0)
+    visit_nums = models.IntegerField(verbose_name='访问总数',
+                                     default=0)
+
+    def __str__(self):
+        return '文章数:%s分类数%s标签数%s评论数%s访问总数%s' % \
+               (self.article_nums, self.comment_nums, self.tag_nums, self.category_nums, self.visit_nums)
+
+    class Meta:
+        verbose_name = '博客统计信息'
+        verbose_name_plural = verbose_name

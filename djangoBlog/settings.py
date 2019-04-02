@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mdeditor'
 ]
 
 # 个人应用
@@ -54,7 +53,7 @@ PERSONAL_APPS = [
 
 # 第三方应用
 EXTRA_APPS = [
-    'DjangoUeditor',
+    'mdeditor'
 ]
 
 INSTALLED_APPS += PERSONAL_APPS + EXTRA_APPS

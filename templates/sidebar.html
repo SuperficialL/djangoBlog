@@ -1,55 +1,70 @@
 <div class="aside">
-    <h4 class="title">网站公告</h4>
-    <div class="notice">
-        <ul>
-            <li>
-                <time>06-30</time>
-                <a target="_blank" href="http://demo.themebetter.com/dux/106.html">大前端和阿里百秀背后的团队</a></li>
-            <li>
-        </ul>
-    </div>
-</div>
-<div class="aside">
-    <h4 class="title">热门文章排行</h4>
-    <ol class="hot-list">
-        {% for article in hot %}
-            <li>
-                <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
-                    {{ article.title }}
-                </a>
-            </li>
-        {% endfor %}
-    </ol>
-</div>
-<div class="aside">
-    <h4 class="title">热门推荐</h4>
-    <ul class="recommend">
-        {% for article in recommend %}
-            <li>
-                <div class="img">
-                    <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
-                        <img src="{{ article.img.url }}"
-                             alt="{{ article.title }}"/>
-                    </a>
-                </div>
-                <p class="text">
-                    <a href="{% url 'blog:detail' article.pk %}">
-                        {{ article.title }}
-                    </a>
-                </p>
-            </li>
-        {% endfor %}
+  <h4 class="title">网站公告</h4>
+  <div class="notice">
+    <ul>
+      {% for notice in notices %}
+        <li>
+          <time>{{ notice.created_time }}</time>
+          <span>{{ notice.text }}</span>
+        <li>
+      {% empty %}
+        暂无通知
+      {% endfor %}
     </ul>
+  </div>
 </div>
 <div class="aside">
-    <h4 class="title">所有标签</h4>
-    <ul class="tags">
-        {% for tag in tags %}
-            <li>
-                <a href="{% url 'blog:tags' tag.name %}">
-                    {{ tag.name }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+  <h4 class="title">热门文章排行</h4>
+  <ol class="hot-list">
+    {% for article in hot %}
+      <li>
+        <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
+          {{ article.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ol>
+</div>
+<div class="aside">
+  <h4 class="title">热门推荐</h4>
+  <ul class="recommend">
+    {% for article in recommend %}
+      <li>
+        <div class="img">
+          <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
+            <img src="{{ article.img.url }}"
+                 alt="{{ article.title }}"/>
+          </a>
+        </div>
+        <p class="text">
+          <a href="{% url 'blog:detail' article.pk %}">
+            {{ article.title }}
+          </a>
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="aside">
+  <h4 class="title">所有标签</h4>
+  <ul class="tags">
+    {% for tag in tags %}
+      <li>
+        <a href="{% url 'blog:tags' tag.name %}">
+          {{ tag.name }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="aside">
+  <h4 class="title">站点信息</h4>
+  <ul class="site">
+    <li>分类:{{ total.category_nums }}个</li>
+    <li>标签:{{ total.tag_nums }}个</li>
+    <li>文章:{{ total.article_nums }}个</li>
+    <li>评论:{{ total.comment_nums }}条</li>
+    <li>访问量:{{ total.visit_nums }}条</li>
+  </ul>
 </div>

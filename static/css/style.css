@@ -794,6 +794,17 @@ section .breadcrumb {
     border-radius: 0;
 }
 
+/* 侧边栏站点统计样式 */
+.aside .site {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.aside .site li {
+    width: 50%;
+    letter-spacing: 3px;
+}
+
 /*推荐*/
 .recommend {
     padding: 10px 0;

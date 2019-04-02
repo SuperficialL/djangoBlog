@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.accounts.models import DayNumber, UserIP, VisitNumber
+from apps.accounts.models import DayNumber, UserIP
 
 
 # Register your models here.
@@ -14,9 +14,3 @@ class DayNumberAdmin(admin.ModelAdmin):
 class UserIPAdmin(admin.ModelAdmin):
     list_display = ('pk', 'ip', 'ip_addr', 'end_point', 'count', 'created_time')
     list_filter = ('ip_addr',)
-
-
-@admin.register(VisitNumber)
-class VisitNumberAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'count')
-    list_filter = ('count',)
