@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from DjangoUeditor.models import UEditorField
+# from mdeditor import fields as md_models
 
 
 class Category(models.Model):
@@ -73,6 +74,7 @@ class Article(models.Model):
                         command=None,
                         blank=True
                         )
+    # content = md_models.MDTextField(blank=True)
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              verbose_name='作者')
@@ -87,6 +89,10 @@ class Article(models.Model):
                                         auto_now_add=True)
     modified_time = models.DateTimeField('修改时间',
                                          auto_now=True)
+
+    # def save(self, *args, **kwargs):
+    #     self.content = self.body
+    #     super(Article, self).save(*args, **kwargs)
 
     def viewed(self):
         # 访问量加一
@@ -126,7 +132,7 @@ class Banner(models.Model):
 
 class Link(models.Model):
     """友情链接"""
-    name = models.CharField('链接名称', max_length=20)
+    name = models.CharField('链接名称', max_length=40)
     link_url = models.URLField('网址', max_length=100)
 
     def __str__(self):
@@ -155,3 +161,19 @@ class SiteInfo(models.Model):
     class Meta:
         verbose_name = '站点信息'
         verbose_name_plural = verbose_name
+
+
+class Notice(models.Model):
+    """通知"""
+    info = models.CharField(verbose_name='信息',
+                            max_length=300)
+    created_time = models.DateTimeField(verbose_name='创建时间',
+                                        auto_now_add=True)
+
+    def __str__(self):
+        return self.info
+
+    class Meta:
+        verbose_name = '博客事件信息'
+        verbose_name_plural = verbose_name
+        ordering = ['created_time']

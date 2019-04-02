@@ -12,7 +12,7 @@ class DayNumberAdmin(admin.ModelAdmin):
 
 @admin.register(UserIP)
 class UserIPAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'ip', 'ip_addr', 'end_point', 'count')
+    list_display = ('pk', 'ip', 'ip_addr', 'end_point', 'count', 'created_time')
     list_filter = ('ip_addr',)
 
 

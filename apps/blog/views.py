@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, StreamingHttpResponse
+from django.conf import settings
 from apps.blog.models import Category, Banner, Article, Tag
 from apps.comments.models import Comment
 from utils.utils import get_pages, total_info
@@ -63,3 +64,23 @@ def search(request):
 def about(request):
     """关于我们"""
     return render(request, 'about.html', locals())
+
+
+def download(request):
+    """下载数据"""
+
+    def file_download(filename):
+        with open(filename) as f:
+            while True:
+                c = f.read(512)
+                if c:
+                    yield c
+                else:
+                    break
+
+    # filename = settings.BASE_DIR + '/data.json'
+    filename = 'data.json'
+    response = StreamingHttpResponse(file_download(filename))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename=%s' % filename
+    return response
