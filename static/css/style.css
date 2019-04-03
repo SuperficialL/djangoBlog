@@ -671,13 +671,13 @@ section .breadcrumb {
 }
 
 .aside .title {
+    position: relative;
+    margin-bottom: 10px;
     font-size: 16px;
     line-height: 40px;
     border-bottom: 1px solid #eee;
     color: #484848;
     font-weight: normal;
-    position: relative;
-    margin-bottom: 10px;
 }
 
 .aside .title:after {
@@ -713,7 +713,7 @@ section .breadcrumb {
     font-size: 12px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    /*overflow: hidden;*/
     font-family: Helvetica, Arial, sans-serif;
     color: #747f8c;
 }
