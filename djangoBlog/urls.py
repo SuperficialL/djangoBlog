@@ -26,7 +26,6 @@ urlpatterns = [
     path('comment/', include('apps.comments.urls')),
     path('mdeditor/', include('mdeditor.urls')),
     path('download/', views.download, name='download'),
-    path('/.well-known/pki-validation/', views.text()),
     re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

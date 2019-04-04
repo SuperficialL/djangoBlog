@@ -84,7 +84,3 @@ def download(request):
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename=%s' % filename
     return response
-
-
-def text(request):
-    return render(request, 'fileauth.txt')
