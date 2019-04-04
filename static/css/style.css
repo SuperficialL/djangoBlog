@@ -315,9 +315,9 @@ a:hover {
 /* 文章列表 */
 .article-wrap {
     background-color: #FFF;
+    margin-top: 20px;
     padding: 15px 10px 20px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-    margin: 20px 0 25px;
 }
 
 .article-list {
@@ -870,6 +870,7 @@ section .breadcrumb {
 /*分页*/
 .pagination {
     display: block;
+    margin-top: 20px;
     text-align: center;
     font-size: 12px;
 }

@@ -1,4 +1,4 @@
-# djangoBlog
+# djangoBlog,一个个人博客
 ### 安装所需要的包
 `pip install -r requirements.txt`
 
@@ -13,6 +13,7 @@ python manage.py runserver
 部署，修改setting.py中的DEBUG=FALSE,并搜集静态文件
 python manage.py collectstatic
 ```
+
 ### 安装uwsgi,并设置相关配置到djangoBlog.ini文件中,安装时不要安装到python的虚拟环境中了
 `pip install uwsgi`
 
