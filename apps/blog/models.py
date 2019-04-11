@@ -26,8 +26,9 @@ class Category(models.Model):
     name = models.CharField(verbose_name='分类名',
                             max_length=50)
     navigation = models.ForeignKey(Navigation,
-                                   on_delete=models.CASCADE,
-                                   verbose_name='分类导航')
+                                   on_delete=models.SET_NULL,
+                                   verbose_name='分类导航',
+                                   null=True)
 
     class Meta:
         verbose_name = '文章分类'

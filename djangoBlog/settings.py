@@ -27,6 +27,7 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 通过判断主机ip来实现是否开启debug模式
+print(socket.gethostbyname(socket.gethostname()), 'ip')
 if socket.gethostbyname(socket.gethostname())[:3] == '134':
     DEBUG = False
     ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com']
@@ -137,7 +138,7 @@ USE_I18N = True
 # 国际化,支持多种语言
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
