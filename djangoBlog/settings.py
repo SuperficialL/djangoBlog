@@ -27,13 +27,13 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 通过判断主机ip来实现是否开启debug模式
-print(socket.gethostbyname(socket.gethostname()), 'ip')
+myname = socket.getfqdn(socket.gethostname())
+print(socket.gethostbyname(myname), 'ss')
 if socket.gethostbyname(socket.gethostname())[:3] == '134':
     DEBUG = False
-    ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com']
 else:
     DEBUG = True
-    ALLOWED_HOSTS = ['127.0.0.1', '192.168.2.113']
+ALLOWED_HOSTS = ['zhangwurui.com', '*.zhangwurui.com', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
