@@ -1,4 +1,7 @@
 ﻿{% extends "base.html" %}
+{% block title %}
+  {{ article.title }}
+{% endblock %}
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/prism.css' %}">
 {% endblock %}
@@ -91,6 +94,6 @@
   <script src="{% static 'js/prism.js' %}"></script>
   <script src="{% static 'js/commit.js' %}"></script>
   <script>
-        $('pre').addClass("line-numbers");
+      $('pre').addClass("line-numbers");
   </script>
 {% endblock %}

@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Banner, Category, Tag, Tui, Article, Link, SiteInfo, Total, Notice
+from .models import Banner, Navigation, Category, Tag, Tui, Article, Link, SiteInfo, Total, Notice
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'title', 'tui', 'user', 'views', 'comment_count', 'created_time')
-    list_filter = ('category', 'tui', 'user', 'created_time')
+    list_display = ('id', 'title', 'tui', 'user', 'views', 'comment_count', 'created_time')
+    list_filter = ('tui', 'user', 'created_time')
     # 文章列表里显示想要显示的字段
     list_per_page = 50
     # 满50条数据就自动分页
@@ -44,10 +44,16 @@ class BannerAdmin(admin.ModelAdmin):
     list_filter = ('text_info', 'img', 'link_url', 'is_active')
 
 
+@admin.register(Navigation)
+class NavigationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_filter = ('name',)
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'index')
-    list_filter = ('name', 'index')
+    list_display = ('id', 'name')
+    list_filter = ('name',)
 
     def save_model(self, request, obj, form, change):
         """统计博客数目"""
@@ -104,8 +110,8 @@ class LinkAdmin(admin.ModelAdmin):
 
 @admin.register(SiteInfo)
 class SiteInfoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'site_name', 'keywords', 'desc', 'copyright', 'code')
-    list_filter = ('site_name', 'keywords', 'desc', 'copyright', 'code')
+    list_display = ('id', 'site_name', 'keywords', 'description', 'copyright', 'code')
+    list_filter = ('site_name', 'keywords', 'description', 'copyright', 'code')
 
 
 @admin.register(Notice)

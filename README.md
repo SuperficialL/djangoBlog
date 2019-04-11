@@ -1,5 +1,5 @@
 # djangoBlog,一个个人博客
-### 安装所需要的包
+### 安装所需要的环境
 `pip install -r requirements.txt`
 
 ### 创建数据库

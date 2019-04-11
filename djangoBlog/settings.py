@@ -29,12 +29,10 @@ SECRET_KEY = '#^z=ncuc)8az8$d*k2#m-k7ae^pqp=3o_f1_*a$s8a)leevz@e'
 # 通过判断主机ip来实现是否开启debug模式
 if socket.gethostbyname(socket.gethostname())[:3] == '134':
     DEBUG = False
-    print(DEBUG, 'debug')
+    ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com']
 else:
     DEBUG = True
-    print(DEBUG, 'debug')
-
-ALLOWED_HOSTS = ['zhangwurui.com', 'www.zhangwurui.com', '127.0.0.1', '192.168.2.113']
+    ALLOWED_HOSTS = ['127.0.0.1', '192.168.2.113']
 
 # Application definition
 INSTALLED_APPS = [
@@ -75,8 +73,7 @@ ROOT_URLCONF = 'djangoBlog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, '.well-known/pki-validation')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,7 +97,7 @@ WSGI_APPLICATION = 'djangoBlog.wsgi.application'
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #     'NAME': 'db',
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -137,25 +134,25 @@ LANGUAGE_CODE = 'zh-hans'
 TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
-
+# 国际化,支持多种语言
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 # 设置静态文件路径
 STATIC_URL = '/static/'
 # 部署网站时搜集静态文件
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 地理位置数据库
 GEOIP_PATH = os.path.join(BASE_DIR, 'static/real_address/GeoLite2-City.mmdb')
 
 # 搜集静态文件时要注释 STATICFILES_DIRS
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static').replace('\\', '/'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static').replace('\\', '/'),
+)
 
 # 设置文件上传路径
 MEDIA_URL = '/media/'

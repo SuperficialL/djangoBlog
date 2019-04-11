@@ -17,7 +17,7 @@ class UserIP(models.Model):
     count = models.IntegerField(verbose_name='访问次数',
                                 default=0)
     created_time = models.DateTimeField(verbose_name='最后访问时间',
-                                        default=timezone.now)
+                                        auto_now=True)
 
     class Meta:
         verbose_name = '访问用户信息'

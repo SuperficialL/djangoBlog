@@ -1,9 +1,9 @@
-from apps.blog.models import Category, Tag, Article, SiteInfo, Link, Notice, Total
+from apps.blog.models import Navigation, Tag, Article, SiteInfo, Link, Notice, Total
 
 
 def global_variable(request):
     """全局通用信息"""
-    categories = Category.objects.all()
+    menu = Navigation.objects.all()
     recommend = Article.objects.filter(tui__id=2)[:6]
     tags = Tag.objects.all()
     site_info = SiteInfo.objects.all().first()

@@ -5,10 +5,10 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <title>
-    Superficial Blog | {% block title %}首页{% endblock %}
+    Superficial Blog | {% block title %}{% endblock %}
   </title>
-  <meta name="keywords" content="互联网,产品经理,产品设计,用户体验,交互设计,网站运营,移动互联网">
-  <meta name="description" content="聚焦互联网前沿资讯，网络精华内容，交流产品心得。 每天为你速递最新、最鲜、最有料的互联网科技资讯！">
+  <meta name="keywords" content="{{ site_info.keywords }}">
+  <meta name="description" content="{{ site_info.description }}">
   {#  <link rel='stylesheet' href='{% static "css/bootstrap.min.css" %}' type='text/css'/>#}
   <link rel='stylesheet' href='{% static "css/font-awesome.min.css" %}' type='text/css'/>
   <link rel='stylesheet' href='{% static "css/style.css" %}' type='text/css'/>
@@ -21,23 +21,32 @@
     <div class="header-wrapper">
       <div class="header-inner">
         <div class="left">
-          <h1 class="logo">
-            <a href="{% url 'blog:index' %}">Superficial</a>
-          </h1>
+          <div class="logo">
+            <h1>
+              <a href="{% url 'blog:index' %}">Superficial</a>
+            </h1>
+          </div>
           <nav class="nav">
-            <ul>
               <li class="active">
                 <a href="{% url 'blog:index' %}">首页</a>
               </li>
-              {% for category in categories %}
+              {% for nav in menu %}
                 <li>
-                  <a href="{% url 'blog:category' category.id %}">{{ category.name }}</a>
+                  <a href="{% url 'blog:category' nav.id %}">{{ nav.name }}</a>
+                  <ul class="sub-menu">
+                    {% for child in nav.category_set.all %}
+                      <li>
+                        <a href="{% url 'blog:category' child.id %}">
+                          {{ child }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
                 </li>
               {% endfor %}
               <li>
                 <a href="{% url 'blog:about' %}">关于博主</a>
               </li>
-            </ul>
           </nav>
         </div>
         <div class="search-box">
@@ -71,6 +80,9 @@
     </ul>
     <div class="copyright">{{ site_info.copyright }}
       · <a href="http://www.miibeian.gov.cn" target="_blank">{{ site_info.code }}</a>
+    </div>
+    <div class="back-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
 </footer>

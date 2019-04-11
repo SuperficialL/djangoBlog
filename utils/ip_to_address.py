@@ -21,11 +21,10 @@ def ip_to_addr(request):
     else:
         # 获取代理IP
         ip = request.META['REMOTE_ADDR']
+
     reader = geoip2.database.Reader(settings.GEOIP_PATH)
     try:
         response = reader.city(ip)
-        x = reader.city('192.168.2.113')
-        print(x, 'sss')
         province = ''
         city = ''
         try:
@@ -46,4 +45,4 @@ def ip_to_addr(request):
         else:
             return ip, country
     except BaseException as e:
-        return '', ''
+        return ip, ''

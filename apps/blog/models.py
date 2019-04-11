@@ -6,15 +6,31 @@ import markdown
 User = get_user_model()
 
 
-class Category(models.Model):
-    """文章分类"""
-    name = models.CharField('博客分类',
+class Navigation(models.Model):
+    """导航分类"""
+    name = models.CharField('导航名',
                             max_length=100)
     index = models.IntegerField(default=999,
                                 verbose_name='分类排序')
 
     class Meta:
-        verbose_name = '博客分类'
+        verbose_name = '导航分类'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    """文章分类"""
+    name = models.CharField(verbose_name='分类名',
+                            max_length=50)
+    navigation = models.ForeignKey(Navigation,
+                                   on_delete=models.CASCADE,
+                                   verbose_name='分类导航')
+
+    class Meta:
+        verbose_name = '文章分类'
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -54,10 +70,10 @@ class Article(models.Model):
                                max_length=200,
                                blank=True)
     category = models.ForeignKey(Category,
-                                 on_delete=models.DO_NOTHING,
+                                 on_delete=models.CASCADE,
                                  verbose_name='分类',
-                                 blank=True,
-                                 null=True)
+                                 null=True,
+                                 blank=True)
     # 使用外键关联分类表与分类是一对多关系
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 使用外键关联标签表与标签是多对多关系
@@ -84,11 +100,12 @@ class Article(models.Model):
                                          auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.format_content = markdown.markdown(self.body.replace("\r\n", '  \n'), extensions=[
-            'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-            'markdown.extensions.toc',
-        ], safe_mode=True, enable_attributes=False)
+        self.format_content = markdown.markdown(self.body.replace("\r\n", '  \n'),
+                                                extensions=[
+                                                    'markdown.extensions.extra',
+                                                    'markdown.extensions.codehilite',
+                                                    'markdown.extensions.toc',
+                                                ], safe_mode=True, enable_attributes=False)
         super(Article, self).save(*args, **kwargs)
 
     def viewed(self):
@@ -146,7 +163,7 @@ class SiteInfo(models.Model):
                                  max_length=40)
     keywords = models.CharField(verbose_name='站点关键字',
                                 max_length=200)
-    desc = models.TextField(verbose_name='站点描述')
+    description = models.TextField(verbose_name='站点描述')
     copyright = models.CharField(verbose_name='站点版权',
                                  max_length=200)
     code = models.CharField(verbose_name='备案号',
@@ -164,6 +181,8 @@ class Notice(models.Model):
     """公告通知"""
     text = models.CharField(verbose_name='信息',
                             max_length=300)
+    # is_active = models.BooleanField(verbose_name='是否激活',
+    #                                 default=False)
     created_time = models.DateTimeField(verbose_name='创建时间',
                                         auto_now_add=True)
 
@@ -180,18 +199,18 @@ class Total(models.Model):
     """统计文章数,分类数,标签数,评论数,访问总数"""
     article_nums = models.IntegerField(verbose_name='文章数',
                                        default=0)
-    comment_nums = models.IntegerField(verbose_name='分类数',
+    category_nums = models.IntegerField(verbose_name='分类数',
+                                        default=0)
+    comment_nums = models.IntegerField(verbose_name='评论数',
                                        default=0)
     tag_nums = models.IntegerField(verbose_name='标签数',
                                    default=0)
-    category_nums = models.IntegerField(verbose_name='评论数',
-                                        default=0)
     visit_nums = models.IntegerField(verbose_name='访问总数',
                                      default=0)
 
     def __str__(self):
         return '文章数:%s分类数%s标签数%s评论数%s访问总数%s' % \
-               (self.article_nums, self.comment_nums, self.tag_nums, self.category_nums, self.visit_nums)
+               (self.article_nums, self.category_nums, self.tag_nums, self.comment_nums, self.visit_nums)
 
     class Meta:
         verbose_name = '博客统计信息'
