@@ -26,7 +26,7 @@ class Category(models.Model):
     name = models.CharField(verbose_name='分类名',
                             max_length=50)
     navigation = models.ForeignKey(Navigation,
-                                   on_delete=models.SET_NULL,
+                                   on_delete=models.CASCADE,
                                    verbose_name='分类导航',
                                    null=True)
 
@@ -65,24 +65,21 @@ class Tui(models.Model):
 
 class Article(models.Model):
     """文章"""
-    title = models.CharField('标题',
+    IMG_LINK = '/static/images/python.jpg'
+    title = models.CharField(verbose_name='标题',
                              max_length=70)
-    excerpt = models.TextField('摘要',
-                               max_length=200,
-                               blank=True)
+    excerpt = models.TextField(verbose_name='摘要',
+                               max_length=200)
     category = models.ForeignKey(Category,
                                  on_delete=models.CASCADE,
                                  verbose_name='分类',
-                                 null=True,
-                                 blank=True)
+                                 null=True)
     # 使用外键关联分类表与分类是一对多关系
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 使用外键关联标签表与标签是多对多关系
     img = models.ImageField(upload_to='article_img/%Y/%m/%d/',
-                            verbose_name='文章图片',
-                            blank=True,
-                            null=True)
-    body = md_models.MDTextField(blank=True)
+                            verbose_name='文章图片', default=IMG_LINK)
+    body = md_models.MDTextField(verbose_name='内容', blank=True)
     format_content = models.TextField(verbose_name='格式化内容',
                                       blank=True)
     user = models.ForeignKey(User,
@@ -95,9 +92,9 @@ class Article(models.Model):
                             verbose_name='推荐位',
                             blank=True,
                             null=True)
-    created_time = models.DateTimeField('发布时间',
+    created_time = models.DateTimeField(verbose_name='发布时间',
                                         auto_now_add=True)
-    modified_time = models.DateTimeField('修改时间',
+    modified_time = models.DateTimeField(verbose_name='修改时间',
                                          auto_now=True)
 
     def save(self, *args, **kwargs):
@@ -106,7 +103,7 @@ class Article(models.Model):
                                                     'markdown.extensions.extra',
                                                     'markdown.extensions.codehilite',
                                                     'markdown.extensions.toc',
-                                                ], safe_mode=True, enable_attributes=False)
+                                                ])
         super(Article, self).save(*args, **kwargs)
 
     def viewed(self):
@@ -147,8 +144,18 @@ class Banner(models.Model):
 
 class Link(models.Model):
     """友情链接"""
-    name = models.CharField('链接名称', max_length=40)
-    link_url = models.URLField('网址', max_length=100)
+    name = models.CharField(verbose_name='链接名称', max_length=40)
+    link_url = models.URLField(verbose_name='网址', max_length=100)
+    is_active = models.BooleanField('是否有效', default=True)
+    is_show = models.BooleanField('是否首页展示', default=False)
+
+    def active_to_false(self):
+        self.is_active = False
+        self.save(update_fields=['is_active'])
+
+    def show_to_false(self):
+        self.is_show = True
+        self.save(update_fields=['is_show'])
 
     def __str__(self):
         return self.name

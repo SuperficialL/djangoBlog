@@ -125,7 +125,8 @@ header a {
 }
 
 .nav > li:hover > .sub-menu {
-    max-height: 100%;
+    max-height: 1000px;
+    z-index: 99;
 }
 
 
@@ -133,7 +134,7 @@ header a {
     position: absolute;
     left: 50%;
     top: 100%;
-    z-index: 99;
+    z-index: 0;
     width: 130px;
     max-height: 0;
     background-color: #555;
@@ -267,11 +268,6 @@ header a {
 .carousel .carousel-inner .item img {
     height: inherit;
 }
-
-/*.carousel .carousel-inner .item.active {*/
-/*display: block;*/
-/*}*/
-
 
 .carousel .carousel-control {
     position: absolute;
