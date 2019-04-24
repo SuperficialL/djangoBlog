@@ -38,10 +38,13 @@ def detail(request, pk):
     return render(request, 'detail.html', locals())
 
 
-def tag(request, tag):
+def tag(request, pk):
     """标签页"""
     total_info(request)
-    article_list = Article.objects.filter(tags__name=tag)
+    try:
+        article_list = Article.objects.get(tags=pk)
+    except ValueError:
+        raise Http404
     tag_name = Tag.objects.get(name=tag)
     paginator, pages = get_pages(request, article_list)
     return render(request, 'tags.html', locals())

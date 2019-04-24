@@ -1,7 +1,9 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 from mdeditor import fields as md_models
 import markdown
+from django.utils.timezone import now
 
 User = get_user_model()
 
@@ -29,10 +31,22 @@ class Category(models.Model):
                                    on_delete=models.CASCADE,
                                    verbose_name='分类导航',
                                    null=True)
+    created_time = models.DateTimeField(verbose_name='发布时间',
+                                        auto_now_add=True,
+                                        null=True, blank=True)
+
+    modified_time = models.DateTimeField(verbose_name='修改时间',
+                                         auto_now=True,
+                                         null=True, blank=True)
+
+    def get_absolute_url(self):
+        """返回该对象的绝对路径"""
+        return reverse('blog:category', self.id)
 
     class Meta:
         verbose_name = '文章分类'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -42,10 +56,22 @@ class Tag(models.Model):
     """文章标签"""
     name = models.CharField('文章标签',
                             max_length=100)
+    created_time = models.DateTimeField(verbose_name='发布时间',
+                                        auto_now_add=True,
+                                        null=True, blank=True)
+
+    modified_time = models.DateTimeField(verbose_name='修改时间',
+                                         auto_now=True,
+                                         null=True,blank=True)
+
+    def get_absolute_url(self):
+        """返回该对象的绝对路径"""
+        return reverse('blog:tags', self.id)
 
     class Meta:
         verbose_name = '文章标签'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -58,6 +84,7 @@ class Tui(models.Model):
     class Meta:
         verbose_name = '推荐位'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -119,9 +146,14 @@ class Article(models.Model):
         # 前一篇
         return Article.objects.filter(id__lt=self.id).order_by('id').last()
 
+    def get_absolute_url(self):
+        """返回该对象的绝对路径"""
+        return reverse('blog:detail', self.id)
+
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.title
@@ -140,6 +172,7 @@ class Banner(models.Model):
     class Meta:
         verbose_name = '轮播图'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
 
 class Link(models.Model):
@@ -163,6 +196,7 @@ class Link(models.Model):
     class Meta:
         verbose_name = '友情链接'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
 
 class SiteInfo(models.Model):
@@ -183,6 +217,7 @@ class SiteInfo(models.Model):
     class Meta:
         verbose_name = '站点信息'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
 
 class Notice(models.Model):
@@ -223,3 +258,4 @@ class Total(models.Model):
     class Meta:
         verbose_name = '博客统计信息'
         verbose_name_plural = verbose_name
+        ordering = ['id']

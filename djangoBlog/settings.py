@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    'django.contrib.sites'
 ]
 
 # 个人应用
@@ -51,12 +53,16 @@ PERSONAL_APPS = [
     'apps.accounts.apps.AccountsConfig'
 ]
 
+# 添加站点,用于生产xml站点地图
+
 # 第三方应用
 EXTRA_APPS = [
     'mdeditor'
 ]
 
 INSTALLED_APPS += PERSONAL_APPS + EXTRA_APPS
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,6 +141,7 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 # 国际化,支持多种语言
+
 USE_L10N = True
 
 USE_TZ = False

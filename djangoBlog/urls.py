@@ -19,6 +19,15 @@ from django.views.static import serve
 from django.conf.urls.static import static
 from django.conf import settings
 from apps.blog import views
+from django.contrib.sitemaps.views import sitemap
+from djangoBlog.sitemaps import ArticleSiteMap, CategorySiteMap, TagSiteMap
+
+sitemaps = {
+
+    'blog': ArticleSiteMap,
+    'Category': CategorySiteMap,
+    'Tag': TagSiteMap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +35,8 @@ urlpatterns = [
     path('comment/', include('apps.comments.urls')),
     path('mdeditor/', include('mdeditor.urls')),
     path('download/', views.download, name='download'),
+    re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+            name='django.contrib.sitemaps.views.sitemap'),
     re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
 ]
