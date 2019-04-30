@@ -1,53 +1,114 @@
 from django.shortcuts import render
 from django.http import Http404, StreamingHttpResponse
 from django.conf import settings
-from apps.blog.models import Category, Banner, Article, Tag
-from apps.comments.models import Comment
 from utils.utils import get_pages, total_info
+from django.views import generic
+from django.shortcuts import get_list_or_404, get_object_or_404
+import markdown
+import time
+from blog.models import Category, Banner, Article, Tag, Navigation
+from comments.models import Comment
 
 
-def index(request):
-    """首页"""
-    total_info(request)
-    banner = Banner.objects.filter(is_active=True)[0:4]
-    tui = Article.objects.filter(tui__id=1)[:3]
-    article_list = Article.objects.all().order_by('-id')
-    paginator, pages = get_pages(request, article_list)
-    return render(request, 'index.html', locals())
+class IndexView(generic.ListView):
+    """列表视图,重用首页,分类,标签,归档"""
+    # 数据库模型
+    model = Article
+    # 指定模板渲染,这里我们用指定,我重用该View用于tag,category,index,archive
+    template_name = 'index.html'
+    # 指定模板中使用的变量
+    context_object_name = 'article_list'
+    # 分页
+    paginate_by = 10
+
+    def get_queryset(self):
+        return super(IndexView, self).get_queryset().filter(status='p')
 
 
-def category(request, pk):
-    """列表页"""
-    total_info(request)
-    article_list = Article.objects.filter(category_id=pk)
-    category_name = Category.objects.get(id=pk)
-    paginator, pages = get_pages(request, article_list)
-    return render(request, 'category.html', locals())
+class CategoryView(generic.ListView):
+    model = Article
+    template_name = 'category.html'
+    context_object_name = 'article_list'
+    paginate_by = 10
+
+    def get_queryset(self, **kwargs):
+        queryset = super(CategoryView, self).get_queryset().filter(status='p')
+        self.nav_slug = self.kwargs.get('nav_slug', '')
+
+        # 文章分类
+        slug = self.kwargs.get('slug', '')
+        if self.nav_slug:
+            big = get_object_or_404(Navigation, slug=self.nav_slug)
+            queryset = queryset.filter(category__navigation=big)
+
+            if slug:
+                slu = get_object_or_404(Category, slug=slug)
+                queryset = queryset.filter(category=slu)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context_data = super(CategoryView, self).get_context_data()
+        slug = self.kwargs.get('slug', '')
+        if slug:
+            category = get_object_or_404(Category, slug=self.kwargs.get('slug'))
+        else:
+            category = get_object_or_404(Navigation, slug=self.kwargs.get('nav_slug'))
+        print(category, 'ds')
+        context_data['category'] = category
+        return context_data
 
 
-def detail(request, pk):
-    """内容页"""
-    total_info(request)
-    try:
-        article = Article.objects.get(id=pk)
-    except ValueError:
-        raise Http404
-    article.viewed()
-    comment_list = Comment.objects.filter(article_id=pk)
-    hot = Article.objects.all().order_by('?')[:10]
-    return render(request, 'detail.html', locals())
+class TagView(generic.ListView):
+    model = Article
+    template_name = 'tags.html'
+    context_object_name = 'article_list'
+    paginate_by = 10
+
+    def get_queryset(self, **kwargs):
+        queryset = super(TagView, self).get_queryset().filter(status='p')
+        tag_name = self.kwargs.get('tag_name', 0)
+        if tag_name:
+            tags = get_object_or_404(Tag, name=tag_name)
+            queryset = queryset.filter(tags=tags)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context_data = super(TagView, self).get_context_data()
+        context_data['tag_name'] = get_object_or_404(Tag, name=self.kwargs.get('tag_name'))
+        return context_data
 
 
-def tag(request, pk):
-    """标签页"""
-    total_info(request)
-    try:
-        article_list = Article.objects.get(tags=pk)
-    except ValueError:
-        raise Http404
-    tag_name = Tag.objects.get(name=tag)
-    paginator, pages = get_pages(request, article_list)
-    return render(request, 'tags.html', locals())
+class ArchiveView(generic.ListView):
+    model = Article
+    template_name = 'archive.html'
+    context_object_name = 'article_list'
+    paginate_by = 200
+
+
+class DetailView(generic.DetailView):
+    """
+        Django有基于类的视图DetailView,用于显示一个对象的详情页，我们继承它
+    """
+    # 获取数据库中的文章列表
+    model = Article
+    # template_name属性用于指定使用哪个模板进行渲染
+    pk_url_kwarg = 'article_id'
+    template_name = 'detail.html'
+    # context_object_name属性用于给上下文变量取名（在模板中使用该名字）
+    context_object_name = 'article'
+
+    def get_object(self, queryset=None):
+        obj = super(DetailView, self).get_object()
+        # 设置浏览量增加时间判断,同一篇文章两次浏览超过半小时才重新统计阅览量,作者浏览忽略
+        obj.update_views()
+        self.object = obj
+        return obj
+
+    def get_context_data(self, **kwargs):
+        article_id = int(self.kwargs[self.pk_url_kwarg])
+        kwargs['next_article'] = self.object.next_article
+        kwargs['prev_article'] = self.object.prev_article
+        return super(DetailView, self).get_context_data(**kwargs)
 
 
 def search(request):
@@ -56,7 +117,7 @@ def search(request):
     try:
         keyword = request.GET.get('search')
         if not keyword:
-            return index(request)
+            return IndexView()
         article_list = Article.objects.filter(title__contains=keyword)
         paginator, pages = get_pages(request, article_list)
     except Exception:

@@ -1,3 +1,4 @@
+{% load blog_tags %}
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -9,7 +10,6 @@
   </title>
   <meta name="keywords" content="{{ site_info.keywords }}">
   <meta name="description" content="{{ site_info.description }}">
-  {#  <link rel='stylesheet' href='{% static "css/bootstrap.min.css" %}' type='text/css'/>#}
   <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
   <link rel='stylesheet' href='{% static "css/font-awesome.min.css" %}' type='text/css'/>
   <link rel='stylesheet' href='{% static "css/style.css" %}' type='text/css'/>
@@ -17,51 +17,45 @@
 </head>
 <body>
 <!-- 头部 -->
-<header class="header">
+<header id="header">
   <div class="container">
-    <div class="header-wrapper">
-      <div class="header-inner">
-        <div class="left">
-          <div class="logo">
-            <h1>
-              <a href="{% url 'blog:index' %}">Superficial</a>
-            </h1>
-          </div>
-          <nav class="nav">
-            <li class="active">
-              <a href="{% url 'blog:index' %}">首页</a>
-            </li>
-            {% for nav in menu %}
-              <li>
-                <a href="{% url 'blog:category' nav.id %}">{{ nav.name }}</a>
-                <ul class="sub-menu">
-                  {% for child in nav.category_set.all %}
-                    <li>
-                      <a href="{% url 'blog:category' child.id %}">
-                        {{ child }}
-                      </a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            {% endfor %}
-            <li>
-              <a href="{% url 'blog:about' %}">关于博主</a>
-            </li>
-          </nav>
-        </div>
-        <div class="search-box">
-          <form action="{% url 'blog:search' %}">
-            <input type="text" name="search" class="search" placeholder="请输入关键字">
-            <button type="submit">
-              <i class="fa fa-search"></i>
-            </button>
-            <div class="nav-collapse">
-              <span class="navicon"></span>
-            </div>
-          </form>
-        </div>
+    <div class="left-wrap">
+      <div class="logo">
+        <a href="{% url 'blog:index' %}">Superficial</a>
       </div>
+      <nav class="nav">
+        <ul id="nav-list">
+          <li class="active">
+            <a href="{% url 'blog:index' %}">首页</a>
+          </li>
+          {% get_navigation_list as menu %}
+          {% for nav in menu %}
+            {% get_category_list nav.pk as categories %}
+            <li>
+              <a href="{% url 'blog:category' nav.slug '' %}">
+                {{ nav.name }}
+                {% if categories %}
+                  <i class="fa fa-angle-down"></i>
+                {% endif %}
+              </a>
+              <ul class="sub">
+                {% for category in categories %}
+                  <li>
+                    <a href="{% url 'blog:category' nav.slug category.slug %}">
+                      {{ category.name }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+    <div class="search-ico">
+      <i class="fa fa-search"></i>
+      <i class="fa fa-navicon show"></i>
+{#      <i class="fa fa-remove hide"></i>#}
     </div>
   </div>
 </header>
@@ -85,7 +79,9 @@
           <a href="/">首页</a>
         </li>
         <li class="item">
-          <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" target='_blank'>站点地图</a>
+          <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" target='_blank'>
+            站点地图
+          </a>
         </li>
       </ul>
       <div class="site-info">
@@ -99,7 +95,6 @@
   </div>
 </footer>
 <script type='text/javascript' src='{% static "js/jquery.min.js" %}'></script>
-<script type='text/javascript' src='{% static "js/bootstrap.min.js" %}'></script>
 <script src="{% static 'js/common.js' %}"></script>
 {% block js %}{% endblock %}
 </body>

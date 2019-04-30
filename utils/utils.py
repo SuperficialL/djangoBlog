@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.utils import timezone
-from apps.accounts.models import DayNumber, UserIP
-from apps.blog.models import Total
+from accounts.models import DayNumber, UserIP
+from blog.models import Total
 from .ip_to_address import ip_to_addr
 import re
 

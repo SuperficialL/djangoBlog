@@ -4,11 +4,11 @@
 # @Author Superficial
 # @File urls.py
 # @Software PyCharm
-from django.urls import path
-from apps.comments import views
+from django.urls import path, re_path
+from comments import views
 
-app_name = 'comments'
+app_name = 'comment'
 
 urlpatterns = [
-    path('add_comment/', views.add_comment, name='add_comment'),
+    re_path('^add/$', views.add_comment),
 ]

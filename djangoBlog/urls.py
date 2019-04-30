@@ -20,24 +20,23 @@ from django.conf.urls.static import static
 from django.conf import settings
 from apps.blog import views
 from django.contrib.sitemaps.views import sitemap
-from djangoBlog.sitemaps import ArticleSiteMap, CategorySiteMap, TagSiteMap
+from djangoBlog.sitemaps import StaticViewSitemap, ArticleSiteMap, CategorySiteMap, TagSiteMap
+from djangoBlog.feeds import Feeds
 
 sitemaps = {
-
+    'static': StaticViewSitemap,
     'blog': ArticleSiteMap,
     'Category': CategorySiteMap,
     'Tag': TagSiteMap,
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('apps.blog.urls')),
-    path('comment/', include('apps.comments.urls')),
-    path('mdeditor/', include('mdeditor.urls')),
-    path('download/', views.download, name='download'),
-    re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
-            name='django.contrib.sitemaps.views.sitemap'),
-    re_path('^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-
-]
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  re_path('^admin/', admin.site.urls),
+                  path('', include('apps.blog.urls', namespace='blog')),
+                  re_path('^comment/', include('apps.comments.urls', namespace='comment')),
+                  path('mdeditor/', include('mdeditor.urls')),
+                  path('download/', views.download, name='download'),
+                  re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+                          name='django.contrib.sitemaps.views.sitemap'),
+                  re_path(r'^feed/$', Feeds()),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

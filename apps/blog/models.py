@@ -1,23 +1,37 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth import get_user_model
+from django.conf import settings
+from django.template.defaultfilters import slugify
 from mdeditor import fields as md_models
 import markdown
-from django.utils.timezone import now
-
-User = get_user_model()
 
 
 class Navigation(models.Model):
     """导航分类"""
     name = models.CharField('导航名',
+                            unique=True,
                             max_length=100)
     index = models.IntegerField(default=999,
                                 verbose_name='分类排序')
+    slug = models.SlugField('网页路径')
+
+    def get_absolute_url(self):
+        """返回该对象的绝对路径"""
+        return reverse('blog:category',
+                       kwargs={
+                           'slug': self.slug,
+                           'nav_slug': ''
+                       })
+
+    def save(self, *args, **kwargs):
+        if not (self.id or not self.slug):
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = '导航分类'
         verbose_name_plural = verbose_name
+        ordering = ['index', 'pk']
 
     def __str__(self):
         return self.name
@@ -26,22 +40,30 @@ class Navigation(models.Model):
 class Category(models.Model):
     """文章分类"""
     name = models.CharField(verbose_name='分类名',
+                            unique=True,
                             max_length=50)
     navigation = models.ForeignKey(Navigation,
                                    on_delete=models.CASCADE,
                                    verbose_name='分类导航',
                                    null=True)
-    created_time = models.DateTimeField(verbose_name='发布时间',
-                                        auto_now_add=True,
-                                        null=True, blank=True)
-
-    modified_time = models.DateTimeField(verbose_name='修改时间',
-                                         auto_now=True,
-                                         null=True, blank=True)
+    slug = models.SlugField('网页路径')
 
     def get_absolute_url(self):
         """返回该对象的绝对路径"""
-        return reverse('blog:category', self.id)
+        return reverse('blog:category',
+                       kwargs={
+                           'slug': self.slug,
+                           'nav_slug': self.navigation.slug
+                       })
+
+    def save(self, *args, **kwargs):
+        if not (self.id or not self.slug):
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def get_article_list(self):
+        """获取该分类下所有文章"""
+        return Article.objects.filter(category=self)
 
     class Meta:
         verbose_name = '文章分类'
@@ -55,18 +77,22 @@ class Category(models.Model):
 class Tag(models.Model):
     """文章标签"""
     name = models.CharField('文章标签',
+                            unique=True,
                             max_length=100)
-    created_time = models.DateTimeField(verbose_name='发布时间',
-                                        auto_now_add=True,
-                                        null=True, blank=True)
-
-    modified_time = models.DateTimeField(verbose_name='修改时间',
-                                         auto_now=True,
-                                         null=True,blank=True)
+    slug = models.SlugField('网页路径')
 
     def get_absolute_url(self):
         """返回该对象的绝对路径"""
-        return reverse('blog:tags', self.id)
+        return reverse('blog:tag', kwargs={'tag_name': self.name})
+
+    def get_article_list(self):
+        """返回当前标签下所有发表的文章列表"""
+        return Article.objects.filter(tags=self)
+
+    def save(self, *args, **kwargs):
+        if not (self.id or not self.slug):
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = '文章标签'
@@ -92,28 +118,42 @@ class Tui(models.Model):
 
 class Article(models.Model):
     """文章"""
+    STATUS_CHOICES = (
+        ('d', '草稿'),
+        ('p', '发表')
+    )
     IMG_LINK = '/static/images/python.jpg'
-    title = models.CharField(verbose_name='标题',
+    title = models.CharField('标题',
+                             unique=True,
                              max_length=70)
-    excerpt = models.TextField(verbose_name='摘要',
-                               max_length=200)
+    summary = models.TextField('文章摘要',
+                               max_length=200,
+                               default='文章摘要等同于网页description内容，请务必填写...')
+    body = md_models.MDTextField('内容', blank=True)
+    status = models.CharField('状态',
+                              choices=STATUS_CHOICES,
+                              max_length=1,
+                              default='p')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.DO_NOTHING,
+                               verbose_name='作者')
     category = models.ForeignKey(Category,
-                                 on_delete=models.CASCADE,
                                  verbose_name='分类',
-                                 null=True)
-    # 使用外键关联分类表与分类是一对多关系
-    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
-    # 使用外键关联标签表与标签是多对多关系
+                                 on_delete=models.CASCADE)
     img = models.ImageField(upload_to='article_img/%Y/%m/%d/',
-                            verbose_name='文章图片', default=IMG_LINK)
-    body = md_models.MDTextField(verbose_name='内容', blank=True)
+                            verbose_name='文章图片',
+                            default=IMG_LINK)
+    # 使用外键关联分类表与分类是一对多关系
+    tags = models.ManyToManyField(Tag,
+                                  verbose_name='标签',
+                                  blank=True)
+    # 使用外键关联标签表与标签是多对多关系
     format_content = models.TextField(verbose_name='格式化内容',
                                       blank=True)
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
-                             verbose_name='作者')
     views = models.PositiveIntegerField('阅读量',
                                         default=0)
+    loves = models.IntegerField('喜爱量', default=0)
+    slug = models.SlugField('网页路径', blank=True)
     tui = models.ForeignKey(Tui,
                             on_delete=models.DO_NOTHING,
                             verbose_name='推荐位',
@@ -121,8 +161,8 @@ class Article(models.Model):
                             null=True)
     created_time = models.DateTimeField(verbose_name='发布时间',
                                         auto_now_add=True)
-    modified_time = models.DateTimeField(verbose_name='修改时间',
-                                         auto_now=True)
+    updated_time = models.DateTimeField(verbose_name='修改时间',
+                                        auto_now=True)
 
     def save(self, *args, **kwargs):
         self.format_content = markdown.markdown(self.body.replace("\r\n", '  \n'),
@@ -131,24 +171,33 @@ class Article(models.Model):
                                                     'markdown.extensions.codehilite',
                                                     'markdown.extensions.toc',
                                                 ])
+        self.slug = slugify(self.title)
+        # if not (self.id or not self.slug):
+        #     self.slug = slugify(self.title)
         super(Article, self).save(*args, **kwargs)
 
-    def viewed(self):
+    def body_to_markdown(self):
+        return markdown.markdown(self.body, extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
+
+    def update_views(self):
         # 访问量加一
         self.views += 1
         self.save(update_fields=['views'])
 
     def next_article(self):
         # 下一篇
-        return Article.objects.filter(id__gt=self.id).order_by('id').first()
+        return Article.objects.filter(id__gt=self.id, status='p').order_by('id').first()
 
     def prev_article(self):
         # 前一篇
-        return Article.objects.filter(id__lt=self.id).order_by('id').last()
+        return Article.objects.filter(id__lt=self.id, status='p').order_by('pk').last()
 
     def get_absolute_url(self):
         """返回该对象的绝对路径"""
-        return reverse('blog:detail', self.id)
+        return reverse('blog:detail', kwargs={'article_id': self.pk})
 
     class Meta:
         verbose_name = '文章'
@@ -156,29 +205,34 @@ class Article(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Banner(models.Model):
     """轮播图"""
-    text_info = models.CharField('标题', max_length=50, default='')
+    title = models.CharField('标题', max_length=50, blank=True)
+    number = models.IntegerField('编号',
+                                 help_text='编号决定图片播放的顺序，图片建议不要多于5张')
     img = models.ImageField('轮播图', upload_to='banner/')
-    link_url = models.URLField('图片链接', max_length=100)
-    is_active = models.BooleanField('是否是active', default=False)
+    link_url = models.URLField('图片链接', max_length=100,
+                               null=True, blank=True)
+    is_active = models.BooleanField('是否激活', default=False)
 
     def __str__(self):
-        return self.text_info
+        return str(self.title)
 
     class Meta:
         verbose_name = '轮播图'
         verbose_name_plural = verbose_name
-        ordering = ['id']
+        ordering = ['number', '-id']
 
 
-class Link(models.Model):
+class FriendLink(models.Model):
     """友情链接"""
     name = models.CharField(verbose_name='链接名称', max_length=40)
-    link_url = models.URLField(verbose_name='网址', max_length=100)
+    link_url = models.URLField(verbose_name='网址',
+                               max_length=100,
+                               help_text='请填写http或https开头的完整形式地址')
     is_active = models.BooleanField('是否有效', default=True)
     is_show = models.BooleanField('是否首页展示', default=False)
 
@@ -224,8 +278,8 @@ class Notice(models.Model):
     """公告通知"""
     text = models.CharField(verbose_name='信息',
                             max_length=300)
-    # is_active = models.BooleanField(verbose_name='是否激活',
-    #                                 default=False)
+    is_active = models.BooleanField('是否激活',
+                                    default=False)
     created_time = models.DateTimeField(verbose_name='创建时间',
                                         auto_now_add=True)
 

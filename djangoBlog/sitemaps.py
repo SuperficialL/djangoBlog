@@ -6,8 +6,20 @@
 # @Software PyCharm
 
 from django.contrib.sitemaps import Sitemap
-from apps.blog.models import Article, Category, Tag
 from django.urls import reverse
+from django.db.models.aggregates import Count
+from blog.models import Article, Category, Tag
+
+
+class StaticViewSitemap(Sitemap):
+    priority = 0.5
+    changefreq = 'daily'
+
+    def items(self):
+        return ['blog:index']
+
+    def location(self, item):
+        return reverse(item)
 
 
 class ArticleSiteMap(Sitemap):
@@ -16,18 +28,14 @@ class ArticleSiteMap(Sitemap):
         priority 相对于其它页面的优先权
     """
     changefreq = "monthly"
-    priority = "0.6"
+    priority = "1.0"
 
     def items(self):
-        return Article.objects.all()
+        return Article.objects.filter(status='p')
 
     def lastmod(self, obj):
         """上次修改时间"""
-        return obj.modified_time
-
-    def location(self, obj):
-        """可选.返回每个对象的绝对路径.如果对象有get_absolute_url()方法,可以省略location"""
-        return reverse('blog:detail', kwargs={'pk': int(obj.id)})
+        return obj.updated_time
 
 
 class CategorySiteMap(Sitemap):
@@ -39,14 +47,10 @@ class CategorySiteMap(Sitemap):
     priority = "0.6"
 
     def items(self):
-        return Category.objects.all()
+        return Category.objects.annotate(total_num=Count('article')).filter(total_num__gt=0)
 
     def lastmod(self, obj):
-        return obj.modified_time
-
-    def location(self, obj):
-        """可选.返回每个对象的绝对路径.如果对象有get_absolute_url()方法,可以省略location"""
-        return reverse('blog:category', kwargs={'pk': int(obj.id)})
+        return obj.article_set.first().updated_time
 
 
 class TagSiteMap(Sitemap):
@@ -58,11 +62,7 @@ class TagSiteMap(Sitemap):
     priority = "0.3"
 
     def items(self):
-        return Tag.objects.all()
+        return Tag.objects.annotate(total_num=Count('article')).filter(total_num__gt=0)
 
     def lastmod(self, obj):
-        return obj.modified_time
-
-    def location(self, obj):
-        """可选.返回每个对象的绝对路径.如果对象有get_absolute_url()方法,可以省略location"""
-        return reverse('blog:tags', kwargs={'pk': obj.id})
+        return obj.article_set.first().updated_time

@@ -90,7 +90,7 @@ TEMPLATES = [
                 'apps.blog.custom_processors.global_variable',
             ],
             'builtins': [
-                'django.templatetags.static'
+                'django.templatetags.static',
             ]
         },
     },
@@ -103,11 +103,11 @@ WSGI_APPLICATION = 'djangoBlog.wsgi.application'
 DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': 'db',
+    #     'NAME': 'db.sqlite3',
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'website',
+        'NAME': 'web',
         'USER': 'root',
         'PASSWORD': '950312',
         'PORT': '3306'
@@ -116,6 +116,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+
+# 用户模型
+AUTH_USER_MODEL = 'accounts.OAuth'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -164,3 +167,18 @@ STATICFILES_DIRS = (
 # 设置文件上传路径
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+# 是否使用TLS安全传输协议(用于在两个通信应用程序之间提供保密性和数据完整性。)
+EMAIL_HOST = 'smtp.163.com'
+# 发送邮件的邮箱 的 SMTP 服务器，这里用了163邮箱
+EMAIL_PORT = 25
+# 发件箱的SMTP服务器端口
+EMAIL_HOST_USER = '15871930413@163.com'
+# 发送邮件的邮箱地址
+EMAIL_HOST_PASSWORD = 'zrui950312'
+# 发送邮件的邮箱密码(这里使用的是授权码)
+
+
+SITE_DESCRIPTION = "StormSha的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好"

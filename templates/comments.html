@@ -1,11 +1,13 @@
+{% load comment_tags %}
 <div class="comments">
-  <h3 class="comment-title">评论({{ comment_list.count }})
+  <h3 class="comment-title">评论({% get_comment_count article.id %})
   </h3>
   <form id="comment-form">
     {% csrf_token %}
     <textarea name="content" rows="4"></textarea>
     <div class="operation">
       <span class="rep-to"></span>
+      <a class="cancel">取消评论</a>
       <a class="submit">评论</a>
     </div>
     <div class="comment-author-wrap">
@@ -24,20 +26,50 @@
         <input type="text" id='url' name='url' placeholder="网址">
         <p class="comment-tips">{{ url.msg }}</p>
       </div>
+      <input type="hidden" class='parent-id' name='parent' value="0">
     </div>
   </form>
   <ul class="comment-list">
+    {% get_parent_comments article.id as comment_list %}
     {% for comment in comment_list %}
-      <li class="comment-item" id="comment-{{ comment.pk }}">
-        <img src="{{ comment.avatar.url }}" alt="{{ comment.name }}" class="avatar">
-        <div class="text">{{ comment.content }}</div>
-        <div class="footer">
-          <span class="user"><a href="{{ comment.url }}">{{ comment.name }}</a></span>
-          <span class="addr">{{ comment.ip_addr }}</span>
-          <span class="browser">{{ comment.browser }}</span>
-          <time>{{ comment.created_time }}</time>
-          <a href="#comment-form" class="reply">回复</a>
+      <li class="comment-item" data-comment-id="{{ comment.pk }}">
+        <div class="parent-comment">
+          <img src="{{ comment.email|gravatar_url }}" alt="{{ comment.name }}" class="avatar">
+          <div class="comment-content">
+            <p>{{ comment.content }}</p>
+            <div class="footer">
+              <span class="user">
+                <a href="{{ comment.url }}">{{ comment.nickname }}</a>
+              </span>
+              <span class="addr">{{ comment.ip_address }}</span>
+              <span class="browser">{{ comment.browser }}</span>
+              <time>{{ comment.created_time }}</time>
+              <a href="#comment-form" class="reply">回复</a>
+            </div>
+          </div>
         </div>
+        <ul>
+          {% get_child_comments comment as child_comments %}
+          {% for child_comment in child_comments %}
+            <li class="child-comment">
+              <img src="{{ child_comment.email|gravatar_url }}" alt="{{ child_comment.name }}" class="avatar">
+              <div class="comment-content">
+                <p>{{ child_comment.content }}</p>
+                <div class="footer">
+                  <span class="user">
+                    <a href="{{ child_comment.url }}">{{ child_comment.nickname }}</a>
+{#                    <i class="fa fa-share"></i>#}
+{#                    {{ comment.nickname }}#}
+                  </span>
+                  <span class="addr">{{ child_comment.ip_address }}</span>
+                  <span class="browser">{{ child_comment.browser }}</span>
+                  <time>{{ child_comment.created_time }}</time>
+                  <a href="#comment-form" class="reply">回复</a>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
       </li>
     {% empty %}
       <li>暂无评论</li>

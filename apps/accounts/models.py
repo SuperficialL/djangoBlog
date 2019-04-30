@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
@@ -24,13 +24,13 @@ class UserIP(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return self.ip
+        return str(self.ip)
 
 
 class DayNumber(models.Model):
     """网站单日访问量统计"""
     day = models.DateTimeField(verbose_name='日期',
-                               default=timezone.now)
+                               auto_now_add=True)
     count = models.IntegerField(verbose_name='网站访问次数', default=0)
 
     class Meta:
@@ -39,3 +39,22 @@ class DayNumber(models.Model):
 
     def __str__(self):
         return str(self.day)
+
+
+class OAuth(AbstractUser):
+    """自定义用户模型"""
+    DEFAULT = '/media/avatar/default.jpg'
+    link = models.URLField('个人网址',
+                           blank=True,
+                           help_text='提示：网址必须填写以http开头的完整形式')
+    avatar = models.ImageField(upload_to='avatar/%Y/%m/%d',
+                               verbose_name='头像',
+                               default=DEFAULT)
+
+    class Meta:
+        verbose_name = '用户'
+        verbose_name_plural = verbose_name
+        ordering = ['-id']
+
+    def __str__(self):
+        return str(self.username)

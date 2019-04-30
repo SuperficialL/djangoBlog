@@ -2,6 +2,6 @@ from django.apps import AppConfig
 
 
 class CommentConfig(AppConfig):
-    name = 'apps.comments'
+    name = 'comments'
     verbose_name = '评论'
 

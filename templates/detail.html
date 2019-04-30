@@ -1,4 +1,5 @@
 ﻿{% extends "base.html" %}
+{% load blog_tags comment_tags %}
 {% block title %}
   {{ article.title }}
 {% endblock %}
@@ -15,7 +16,7 @@
             <a href="{% url 'blog:index' %}">首页</a>
           </li>
           <li>
-            <a href="{% url 'blog:category' article.category.id %}">
+            <a href="{% url 'blog:category' article.category.navigation.slug article.category.slug %}">
               {{ article.category.name }}
             </a>
           </li>
@@ -24,13 +25,13 @@
         <article class="article">
           <h2 class="title">{{ article.title }}</h2>
           <div class="meta">
-            <span>分类：<a href="{% url 'blog:category' article.category.id %}">
+            <span>分类：<a href="{% url 'blog:category' article.category.navigation.slug article.category.slug %}">
               {{ article.category.name }}</a>
             </span>
             <span>作者：{{ article.user }}</span>
             <span>浏览：{{ article.views }}</span>
             <span>时间：{{ article.created_time }}</span>
-            <span>评论：{{ article.comment_set.all.count }}</span>
+            <span>评论：{% get_comment_count article.id %}</span>
           </div>
           <div class="article-content">
             {{ article.format_content|safe }}
@@ -38,7 +39,7 @@
           <div class="post-tag">
             <span class="fa fa-tags" aria-hidden="true"></span>标签：
             {% for tag in article.tags.all %}
-              <a href="{% url 'blog:tags' tag.name %}">{{ tag.name }}</a>
+              <a href="{% url 'blog:tag' tag.pk %}">{{ tag.name }}</a>
             {% endfor %}
           </div>
           <div>
@@ -65,7 +66,8 @@
         <div class="recommend">
           <h4 class="title">您可能感兴趣的:</h4>
           <ul>
-            {% for article in hot %}
+            {% get_hot_article as hot_article_list %}
+            {% for article in hot_article_list %}
               <li>
                 <div class="pic">
                   <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">

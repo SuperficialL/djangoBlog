@@ -1,3 +1,4 @@
+{% load blog_tags %}
 <div class="aside">
   <h4 class="title">网站公告</h4>
   <div class="notice">
@@ -16,7 +17,8 @@
 <div class="aside">
   <h4 class="title">热门文章排行</h4>
   <ol class="hot-list">
-    {% for article in hot %}
+    {% get_hot_article as hot_article_list %}
+    {% for article in hot_article_list %}
       <li>
         <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
           {{ article.title }}
@@ -50,7 +52,7 @@
   <ul class="tags">
     {% for tag in tags %}
       <li>
-        <a href="{% url 'blog:tags' tag.pk %}">
+        <a href="{% url 'blog:tag' tag.slug %}">
           {{ tag.name }}
         </a>
       </li>

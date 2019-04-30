@@ -1,4 +1,5 @@
 ﻿{% extends "base.html" %}
+{% load blog_tags comment_tags %}
 {% block title %}
   首页
 {% endblock %}
@@ -10,9 +11,10 @@
         <div class="carousel">
           <!-- 轮播图片 -->
           <ul class="carousel-inner">
-            {% for foo in banner %}
+            {% get_carousel_list as banners %}
+            {% for banner in banners %}
               <li class="item">
-                <img src="{{ foo.img.url }}" alt="{{ foo.text_info }}">
+                <img src="{{ banner.img.url }}" alt="{{ banner.title }}">
                 <p class="carousel-caption"></p>
               </li>
             {% endfor %}
@@ -26,7 +28,7 @@
           </a>
           <!-- 控制器 -->
           <ul class="carousel-indicators">
-            {% for foo in banner %}
+            {% for banner in banners %}
               {% if forloop.counter0 == 0 %}
                 <li class="active">
                 </li>
@@ -41,7 +43,7 @@
           <ul class="tab">
             <li class="post-left-title">最新文章</li>
           </ul>
-          {% for article in pages.object_list %}
+          {% for article in page_obj %}
             <article class="article-list">
               <a href="{% url 'blog:detail' article.id %}"
                  title="{{ article.title }}"
@@ -59,12 +61,12 @@
                   </a>
                 </h3>
                 <div class="summary">
-                  {{ article.excerpt }}
+                  {{ article.summary }}
                 </div>
                 <div class="article-info">
                   <div class="meta">
                     <span class="label label-info">
-                      <a href="{% url 'blog:category' article.category.pk %}">
+                      <a href="{% url 'blog:category' article.category.navigation.slug article.category.slug %}">
                         {{ article.category.name }}
                       </a>
                     </span>
@@ -78,7 +80,7 @@
                     </span>
                     <span>
                       <i class="fa fa-commenting-o"></i>
-                      {{ article.comment_set.all.count }}
+                      {% get_comment_count article.id %}
                     </span>
                   </div>
                   <a class="label label-info detail-btn" href="{% url 'blog:detail' article.pk %}">

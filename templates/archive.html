@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block css %}
+  <style type="text/css">
+    .archive {
+      line-height: 2;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <div class="category">
+          <h2 class="title">归档：{{ category }}</h2>
+          <p class="count">共{{ article_list.count }}篇</p>
+        </div>
+        <section class="article-wrap">
+          {% regroup article_list by created_time.year as year_list %}
+          <ul class="pl-4">
+            {% for article in year_list %}
+              <li>{{ article.grouper }} 年
+                {% regroup article_list by created_time.month as month_list %}
+                <ul class="pl-4">
+                  {% for each in month_list %}
+                    <li>{{ each.grouper }} 月 (共 {{ each.list|length }} 篇)
+                      <ul class="pl-4">
+                        {% for item in each.list %}
+                          <li class="text-info">
+                            {{ item.created_time|date:'m-d' }}&nbsp;&nbsp;
+                            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      </div>
+      <div class="sidebar">
+        {% include 'sidebar.html' %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Banner, Navigation, Category, Tag, Tui, Article, Link, SiteInfo, Total, Notice
+from .models import Banner, Navigation, Category, Tag, Tui, Article, FriendLink, SiteInfo, Total, Notice
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'tui', 'user', 'views', 'comment_count', 'created_time')
-    list_filter = ('tui', 'user', 'created_time')
+    list_display = ('id', 'title', 'tui', 'author', 'views', 'created_time', 'status')
+    list_filter = ('tui', 'author', 'created_time', 'status')
     # 文章列表里显示想要显示的字段
     list_per_page = 50
     # 满50条数据就自动分页
@@ -14,40 +14,18 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title')
 
     # 设置哪些字段可以点击进入编辑界面
-    def comment_count(self, obj):
-        """这个方法自定义扩展要显示的评论数量字段"""
-        return obj.comment_set.all().count()
-
-    def save_model(self, request, obj, form, change):
-        """统计博客数目"""
-        obj.save()
-        article_nums = Article.objects.count()
-        print(article_nums, 'article_nums')
-        total = Total.objects.get(id=1)
-        total.article_nums = article_nums
-        total.save()
-
-    def delete_model(self, request, obj):
-        obj.delete()
-        article_nums = Article.objects.count()
-        print(article_nums, 'article_nums')
-        total = Total.objects.get(id=1)
-        total.article_nums = article_nums
-        total.save()
-
-    comment_count.short_description = '评论数'
 
 
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'text_info', 'img', 'link_url', 'is_active')
-    list_filter = ('text_info', 'img', 'link_url', 'is_active')
+    list_display = ('id', 'title', 'img', 'link_url', 'is_active')
+    list_filter = ('title', 'img', 'link_url', 'is_active')
 
 
 @admin.register(Navigation)
 class NavigationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    list_filter = ('name',)
+    list_display = ('id', 'index', 'name', 'slug')
+    list_filter = ('name', 'slug')
 
 
 @admin.register(Category)
@@ -102,8 +80,8 @@ class TuiAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
-@admin.register(Link)
-class LinkAdmin(admin.ModelAdmin):
+@admin.register(FriendLink)
+class FriendLinkAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'link_url')
     list_filter = ('name', 'link_url')
 

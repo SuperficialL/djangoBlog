@@ -1,68 +1,58 @@
 $(function () {
-        let $width = $('.carousel-inner .item').width(),
-            curIndex = 0,
-            timer = null,
-            len = $('.carousel-inner li').length + 1,
-            item = $('.carousel-inner li').first().clone();
-        $('.carousel-inner').append(item);
-        $('.carousel-inner').width(len * $width);
-        // 复制第一张图片到最后,实现无缝轮播
+    let curIndex = 0,
+        slider = $(".carousel-inner"),
+        totalSlides = $(".carousel-inner .item").length,
+        sliderWidth = $(".carousel-inner .item").width(),
+        dots = $(".carousel-indicators li"),
+        btn_prev = $('.prev'),
+        btn_next = $('.next'),
+        timer = null;
 
-        //鼠标划入圆点
-        $(".carousel-indicators li").hover(function () {
-            let index = $(this).index();
-            $(".carousel-inner").stop().animate({
-                left: -index * 1000
-            }, 500);
-            $(this).addClass('active').siblings().removeClass('active');
-        });
+    // 设置总宽度
+    slider.width(sliderWidth * totalSlides);
 
-        /* 右切按钮 */
-        $('.next').click(function () {
-            curIndex++;
-            move()
-        });
-        /* 左切按钮 */
-        $('.prev').click(function () {
-            curIndex--;
-            move()
-        });
+    // 下一张图片
+    btn_next.click(function () {
+        slideRight();
+    });
 
-        /* 封装 */
-        function move() {
-            if (curIndex === len) {
-                $('.carousel-inner').css({left: 0});
-                curIndex = 1
-            }
-            if (curIndex < 0) {
-                $('.carousel-inner').css({
-                    left: -(len - 1) * $width + 'px'
-                    //判断是第一个li时，无缝连接到最后一个
-                });
-                curIndex = len - 2;
-            }
-            $('.carousel-inner').stop().animate({
-                left: -curIndex * $width + 'px'
-            }, 500);
-            if ((curIndex === len - 1)) {
-                $('.carousel-indicators li').eq(0).addClass('active').siblings().removeClass('active');
-            } else {
-                $('.carousel-indicators li').eq(curIndex).addClass('active').siblings().removeClass('active');
-            }
+    // 上一张图片
+    btn_prev.click(function () {
+        slideLeft();
+    });
 
-        };
 
-        /* 移入banner时取消定时器 */
-        $('.carousel').hover(function () {
-            clearInterval(timer)
+    dots.mouseenter(function () {
+        curIndex = $(this).index();
+        $(this).addClass('active').siblings().removeClass("active");
+        slider.animate({'left': -(curIndex * sliderWidth)});
+    });
+
+    // 自动轮播
+    timer = setInterval(slideRight, 3000);
+    slider.hover(
+        function () {
+            clearInterval(timer);
         }, function () {
-            timer = setInterval(move, 2000)
-        });
+            timer = setInterval(slideRight, 3000);
+        }
+    );
 
-        /* 自动轮播 */
-        timer = setInterval(function () {
-            curIndex++;
-            move()
-        }, 2000)
+    function slideLeft() {
+        curIndex--;
+        if (curIndex === -1) {
+            curIndex = totalSlides - 1;
+        }
+        slider.animate({'left': -(sliderWidth * curIndex)});
+        dots.removeClass('active').eq(curIndex).addClass('active');
     }
-);
+
+    function slideRight() {
+        curIndex++;
+        if (curIndex === totalSlides) {
+            curIndex = 0;
+        }
+        slider.animate({'left': -(sliderWidth * curIndex)});
+        dots.removeClass('active').eq(curIndex).addClass('active');
+    }
+});

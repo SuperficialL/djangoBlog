@@ -1,7 +1,8 @@
 $(function () {
-        $('.nav-collapse').click(function () {
-            $(this).toggleClass('close');
-            $('.header .nav').toggleClass('show');
+        $('.show').click(function () {
+            // 显示
+            $('#nav-list').toggle();
+            $(this).toggleClass('open');
         });
         $(window).scroll(function () {
             let $scroll = $(this).scrollTop();
