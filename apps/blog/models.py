@@ -171,9 +171,8 @@ class Article(models.Model):
                                                     'markdown.extensions.codehilite',
                                                     'markdown.extensions.toc',
                                                 ])
-        self.slug = slugify(self.title)
-        # if not (self.id or not self.slug):
-        #     self.slug = slugify(self.title)
+        if not (self.id or not self.slug):
+            self.slug = slugify(self.title)
         super(Article, self).save(*args, **kwargs)
 
     def body_to_markdown(self):
