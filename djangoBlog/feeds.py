@@ -6,14 +6,14 @@
 # @Software PyCharm
 
 from django.contrib.syndication.views import Feed
-from django.conf import settings
 from blog.models import Article
+from blog.models import SiteInfo
 
 
 class Feeds(Feed):
     title = "RSS 订阅"
-    description = settings.SITE_DESCRIPTION
-    feed_url = 'https://www.lylinux.net/feed'
+    description = SiteInfo.objects.all().first().description
+    feed_url = 'https://www.zhangwuruil.com/feed'
     link = "/"
 
     def items(self):

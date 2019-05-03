@@ -1,4 +1,4 @@
-from blog.models import Navigation, Tag, Article, SiteInfo, FriendLink, Notice, Total
+from blog.models import Tag, Article, SiteInfo, FriendLink, Notice, Total
 
 
 def global_variable(request):

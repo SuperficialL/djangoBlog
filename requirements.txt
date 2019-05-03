@@ -1,9 +1,11 @@
 Django==2.1.7
 django-mdeditor==0.1.13
+djangorestframework==3.9.3
+djangorestframework-jwt==1.11.0
 geoip2==2.9.0
 Markdown==3.1
 mysqlclient==1.4.2.post1
 Pillow==5.4.1
-PyMySQL==0.9.3
+PyJWT==1.7.1
 requests==2.21.0
-urllib3==1.25
+urllib3==1.24

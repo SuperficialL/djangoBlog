@@ -7,8 +7,8 @@
 
 
 from django.urls import path, re_path
-from apps.blog import views
-from apps.blog.views import IndexView, DetailView, CategoryView, TagView, ArchiveView
+from blog import views
+from blog.views import IndexView, DetailView, CategoryView, TagView, ArchiveView
 
 app_name = 'blog'
 

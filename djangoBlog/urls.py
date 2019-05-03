@@ -18,10 +18,10 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf.urls.static import static
 from django.conf import settings
-from apps.blog import views
+from blog import views
 from django.contrib.sitemaps.views import sitemap
-from djangoBlog.sitemaps import StaticViewSitemap, ArticleSiteMap, CategorySiteMap, TagSiteMap
-from djangoBlog.feeds import Feeds
+from .sitemaps import StaticViewSitemap, ArticleSiteMap, CategorySiteMap, TagSiteMap
+from .feeds import Feeds
 
 sitemaps = {
     'static': StaticViewSitemap,
@@ -31,9 +31,9 @@ sitemaps = {
 }
 
 urlpatterns = [
-                  re_path('^admin/', admin.site.urls),
-                  path('', include('apps.blog.urls', namespace='blog')),
-                  re_path('^comment/', include('apps.comments.urls', namespace='comment')),
+                  re_path(r'^admin/', admin.site.urls),
+                  path(r'', include('apps.blog.urls', namespace='blog')),
+                  re_path(r'^comment/', include('apps.comments.urls', namespace='comment')),
                   path('mdeditor/', include('mdeditor.urls')),
                   path('download/', views.download, name='download'),
                   re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},

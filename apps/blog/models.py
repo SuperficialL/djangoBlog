@@ -128,7 +128,7 @@ class Article(models.Model):
                              max_length=70)
     summary = models.TextField('文章摘要',
                                max_length=200,
-                               default='文章摘要等同于网页description内容，请务必填写...')
+                               blank=True)
     body = md_models.MDTextField('内容', blank=True)
     status = models.CharField('状态',
                               choices=STATUS_CHOICES,
@@ -153,7 +153,6 @@ class Article(models.Model):
     views = models.PositiveIntegerField('阅读量',
                                         default=0)
     loves = models.IntegerField('喜爱量', default=0)
-    slug = models.SlugField('网页路径', blank=True)
     tui = models.ForeignKey(Tui,
                             on_delete=models.DO_NOTHING,
                             verbose_name='推荐位',
@@ -171,8 +170,7 @@ class Article(models.Model):
                                                     'markdown.extensions.codehilite',
                                                     'markdown.extensions.toc',
                                                 ])
-        if not (self.id or not self.slug):
-            self.slug = slugify(self.title)
+        self.summary = self.format_content[:200]
         super(Article, self).save(*args, **kwargs)
 
     def body_to_markdown(self):

@@ -50,14 +50,14 @@ INSTALLED_APPS = [
 PERSONAL_APPS = [
     'apps.blog.apps.BlogConfig',
     'apps.comments.apps.CommentConfig',
-    'apps.accounts.apps.AccountsConfig'
+    'apps.accounts.apps.AccountsConfig',
 ]
 
 # 添加站点,用于生产xml站点地图
 
 # 第三方应用
 EXTRA_APPS = [
-    'mdeditor'
+    'mdeditor',
 ]
 
 INSTALLED_APPS += PERSONAL_APPS + EXTRA_APPS
@@ -168,6 +168,7 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
+# 邮件信息配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
 # 是否使用TLS安全传输协议(用于在两个通信应用程序之间提供保密性和数据完整性。)
@@ -181,4 +182,7 @@ EMAIL_HOST_PASSWORD = 'zrui950312'
 # 发送邮件的邮箱密码(这里使用的是授权码)
 
 
-SITE_DESCRIPTION = "StormSha的个人网站，记录生活的瞬间，分享学习的心得，感悟生活，留住感动，静静寻觅生活的美好"
+# 增加自定义后套验证路径
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.CustomBackend',
+)
