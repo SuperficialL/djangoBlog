@@ -32,7 +32,7 @@ if socket.gethostbyname(socket.gethostname())[:3] == '192':
     ALLOWED_HOSTS = ['127.0.0.1', '192.168.2.113']
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['zhangwurui.com', '*.zhangwurui.com']
+    ALLOWED_HOSTS = ['www.zhangwurui.com', '*.zhangwurui.com']
 
 # Application definition
 INSTALLED_APPS = [

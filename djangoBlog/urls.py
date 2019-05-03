@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic.base import RedirectView
 from blog import views
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import StaticViewSitemap, ArticleSiteMap, CategorySiteMap, TagSiteMap
@@ -39,4 +40,5 @@ urlpatterns = [
                   re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
                           name='django.contrib.sitemaps.views.sitemap'),
                   re_path(r'^feed/$', Feeds()),
+                  re_path(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
