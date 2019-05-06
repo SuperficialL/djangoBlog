@@ -72,6 +72,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 增加404错误中间件
+    'django.middleware.common.BrokenLinkEmailsMiddleware'
 ]
 
 ROOT_URLCONF = 'djangoBlog.urls'
@@ -176,13 +178,115 @@ EMAIL_HOST = 'smtp.163.com'
 # 发送邮件的邮箱 的 SMTP 服务器，这里用了163邮箱
 EMAIL_PORT = 25
 # 发件箱的SMTP服务器端口
-EMAIL_HOST_USER = '15871930413@163.com'
+SERVER_EMAIL = EMAIL_HOST_USER = '15871930413@163.com'
 # 发送邮件的邮箱地址
 EMAIL_HOST_PASSWORD = 'zrui950312'
 # 发送邮件的邮箱密码(这里使用的是授权码)
-
+# 将请求/响应周期中引发的异常的详细信息发送邮箱配置
+ADMINS = [('Superficial', '15871930413@163.com'), ]
+SEND_BROKEN_LINK_EMAILS = True
+MANAGERS = ADMINS
 
 # 增加自定义后套验证路径
 AUTHENTICATION_BACKENDS = (
     'accounts.backends.CustomBackend',
 )
+# 创建日志路径
+LOG_PATH = os.path.join(BASE_DIR, 'log')
+
+if not os.path.isdir(LOG_PATH):
+    # 如果地址不存在,则自动创建log文件夹
+    os.mkdir(LOG_PATH)
+
+LOGGING = {
+    # version 值只能为1
+    'version': 1,
+    # True 表示禁用loggers
+    'disable_existing_loggers': False,
+    # 日志格式化集合
+    'formatters': {
+        'verbose': {
+            # [具体时间][日志名字:日志级别名称] [输出的模块:输出的函数]:日志内容
+            'format': '[%(asctime)s] [%(name)s:%(levelname)s] [%(module)s:%(funcName)s]:%(message)s'
+        }
+    },
+    # 过滤器
+    'filters': {
+        # debug=False
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        # debug=True
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    # 处理器
+    'handlers': {
+        # 输出到控制台
+        'console': {
+            'level': 'DEBUG',
+            # 输出信息的最低级别
+            'class': 'logging.StreamHandler',
+            # 'filters': ['require_debug_true'],
+            # 仅当 DEBUG = True 该处理器才生效
+            # 指定保存格式
+            'formatter': 'verbose'
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 保存到文件，自动切
+            'filename': os.path.join(BASE_DIR, "djangoBlog_err.log"),
+            # 日志文件
+            'maxBytes': 1024 * 1024 * 50,
+            # 日志大小 50M
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        # 输出到文件
+        'log_file': {
+            'level': 'DEBUG',
+            # 若日志超过指定文件的大小，会再生成一个新的日志文件保存日志信息
+            'class': 'logging.handlers.RotatingFileHandler',
+            # 指定保存格式
+            'formatter': 'verbose',
+            # 指定文件大小 5M
+            'maxBytes': 5 * 1024 * 1024,
+            # 文件编码
+            'encoding': 'utf8',
+            # 文件地址
+            'filename': '%s/djangoblog_debug.log' % LOG_PATH,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True
+        },
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+    },
+    # 日志管理器
+    'loggers': {
+        # 管理器
+        'django': {
+            'handlers': ['console', 'log_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['mail_admins', 'log_file', 'console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        # 对于不在 ALLOWED_HOSTS 中的请求不发送报错邮件
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    }
+}

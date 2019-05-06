@@ -8,6 +8,9 @@ import markdown
 import time
 from blog.models import Category, Banner, Article, Tag, Navigation
 from comments.models import Comment
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class IndexView(generic.ListView):
@@ -53,7 +56,6 @@ class CategoryView(generic.ListView):
             category = get_object_or_404(Category, slug=self.kwargs.get('slug'))
         else:
             category = get_object_or_404(Navigation, slug=self.kwargs.get('nav_slug'))
-        print(category, 'ds')
         context_data['category'] = category
         return context_data
 

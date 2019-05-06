@@ -171,7 +171,6 @@ class Article(models.Model):
                                                     'markdown.extensions.toc',
                                                 ])
         self.summary = self.format_content[:200]
-        self.push()
         super(Article, self).save(*args, **kwargs)
 
     def body_to_markdown(self):
@@ -195,24 +194,12 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         """返回该对象的绝对路径"""
-        return reverse('blog:detail', kwargs={'article_id': self.pk})
-
-    def push(self):
-        """推送到百度"""
-        if self.status == 'p':
-            # 当状态为发表时才发送推送请求
-            import requests
-            # http://data.zz.baidu.com/site/index 站点管理中的链接提交接口
-            url = 'http://data.zz.baidu.com/urls?site=www.zhangwurui.com&token=sqSwNMBYe97plvxx'
-            headers = {
-                'Content-Type': 'text/plain'
-            }
-            article_list = list()
-            article_list.append('https://zhangwurui.com/detail/%s.html' % (self.pk))
-            data = '\n'.join(article_list)
-            req = requests.post(url, headers=headers, data=data)
-            res = req.json()
-            print(res, '响应数据')
+        return reverse('blog:detail', kwargs={
+            'article_id': self.id,
+            'year': self.created_time.year,
+            'month': self.created_time.month,
+            'day': self.created_time.day
+        })
 
     class Meta:
         verbose_name = '文章'

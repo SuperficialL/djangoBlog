@@ -14,7 +14,7 @@
         <section class="article-wrap">
           {% for article in page_obj %}
             <article class="article-list">
-              <a href="{% url 'blog:detail' article.id %}"
+              <a href="{{ article.get_absolute_url }}"
                  title="{{ article.title }}"
                  class="thumbnail-wrap"
               >
@@ -24,7 +24,7 @@
               </a>
               <div class="article-inner">
                 <h3 class="title">
-                  <a href="{% url 'blog:detail' article.id %}"
+                  <a href="{{ article.get_absolute_url }}"
                      title="{{ article.title }}">
                     {{ article.title }}
                   </a>
@@ -52,7 +52,7 @@
                       {% get_comment_count article.id %}
                     </span>
                   </div>
-                  <a class="label label-info detail-btn" href="{% url 'blog:detail' article.pk %}">
+                  <a class="label label-info detail-btn" href="{{ article.get_absolute_url }}">
                     阅读详情
                   </a>
                 </div>

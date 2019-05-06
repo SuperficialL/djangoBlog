@@ -14,7 +14,8 @@ from django.conf import settings
 class SendEmail:
     """发送邮件"""
 
-    def send_html_email(self, subject, html_content, to_list):
+    @staticmethod
+    def send_html_email(subject, html_content, to_list):
         """
         发送HTML邮件
         :param subject: 邮件标题
@@ -28,7 +29,8 @@ class SendEmail:
         # 设置类型为html
         message.send()
 
-    def send_text_email(self, subject, content, to_list, is_fail_silently=False):
+    @staticmethod
+    def send_text_email(subject, content, to_list, is_fail_silently=False):
         """
         发送文本邮件
         :param subject: 邮件标题
@@ -50,3 +52,8 @@ class SendEmail:
         """
         html_content = loader.render_to_string(module, data)
         self.send_html_email(subject, html_content, to_list)
+
+    def send_email_by_celery(self, subject, html_content, send_from, to_list, is_fail_silently=False):
+        msg = EmailMessage(subject, html_content, send_from, to_list)
+        msg.content_subtype = "html"
+        msg.send(is_fail_silently)

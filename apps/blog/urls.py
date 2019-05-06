@@ -17,7 +17,7 @@ urlpatterns = [
     re_path(r'^category/(?P<nav_slug>.*?)/(?P<slug>.*?)$', CategoryView.as_view(),
             name='category'),
     re_path(r'tag/(?P<tag_name>.*?)/$', TagView.as_view(), name='tag'),
-    path(r'detail/<int:article_id>.html', DetailView.as_view(), name='detail'),
+    path(r'article/<int:year>/<int:month>/<int:day>/<int:article_id>.html', DetailView.as_view(), name='detail'),
     re_path(r'archive/$', ArchiveView.as_view(), name='archive'),  # 归档页面
     # 全文搜索
     # re_path(r'^search/$', MySearchView.as_view(), name='search'),

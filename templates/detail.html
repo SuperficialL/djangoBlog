@@ -44,18 +44,18 @@
           </div>
           <div>
             <div><b>上一篇：</b>
-              {% if article.prev_article %}
-                <a href="{% url 'blog:detail' article.prev_article.pk %}" class="article-tag">
-                  {{ article.prev_article.title }}
+              {% if prev_article %}
+                <a href="{{ prev_article.get_absolute_url }}" class="article-tag">
+                  {{ prev_article.title }}
                 </a>
               {% else %}
                 已经是第一篇了！
               {% endif %}
             </div>
             <div><b>下一篇：</b>
-              {% if article.next_article %}
-                <a href="{% url 'blog:detail' article.next_article.pk %}" class="article-tag">
-                  {{ article.next_article.title }}
+              {% if next_article %}
+                <a href="{{ next_article.get_absolute_url }}" class="article-tag">
+                  {{ next_article.title }}
                 </a>
               {% else %}
                 已经是最后一篇了！
@@ -70,13 +70,13 @@
             {% for article in hot_article_list %}
               <li>
                 <div class="pic">
-                  <a href="{% url 'blog:detail' article.pk %}" title="{{ article.title }}">
+                  <a href="{{ article.get_absolute_url }}" title="{{ article.title }}">
                     <img src="{{ article.img.url }}"
                          alt="{{ article.title }}"
                          class="wp-post-image">
                   </a>
                 </div>
-                <a class="description" href="{% url 'blog:detail' article.pk %}" rel="bookmark"
+                <a class="description" href="{{ article.get_absolute_url }}" rel="bookmark"
                    title="{{ article.title }}">{{ article.title }}</a>
               </li>
             {% endfor %}

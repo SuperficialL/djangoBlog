@@ -6,6 +6,7 @@ from blog.models import Article
 from comments.email import SendEmail
 from .forms import CommentForm
 from utils.utils import ip_to_addr, get_user_agent
+from celery_tasks.tasks import send_email_by_celery, send_email_by,hello
 
 
 # Create your views here.
@@ -65,6 +66,8 @@ def add_comment(request):
                 subject = '来着[Superficial的博客]博文评论'
                 template = 'email/send_email.html'
                 to_list.append('347106739@qq.com')
-            send_mail.send_email_by_template(subject, template, email_data, to_list)
+            # send_mail.send_email_by_template(subject, template, email_data, to_list)
+            # send_email_by_celery(subject, template, email_data, to_list)
+            hello.delay()
             return JsonResponse({'msg': '评论提交成功！', 'new_point': new_point})
         return JsonResponse({'msg': '评论失败！'})
