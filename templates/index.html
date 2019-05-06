@@ -1,5 +1,5 @@
 ﻿{% extends "base.html" %}
-{% load blog_tags comment_tags %}
+{% load comment_tags %}
 {% block title %}
   首页
 {% endblock %}
@@ -7,38 +7,7 @@
   <section class="section">
     <div class="container">
       <div class="content">
-        <!-- 轮播图 -->
-        <div class="carousel">
-          <!-- 轮播图片 -->
-          <ul class="carousel-inner">
-            {% get_carousel_list as banners %}
-            {% for banner in banners %}
-              <li class="item">
-                <img src="{{ banner.img.url }}" alt="{{ banner.title }}">
-                <p class="carousel-caption"></p>
-              </li>
-            {% endfor %}
-          </ul>
-          <!-- 左右控制器 -->
-          <a class="prev carousel-control">
-            <i class="fa fa-chevron-left"></i>
-          </a>
-          <a class="next carousel-control">
-            <i class="fa fa-chevron-right"></i>
-          </a>
-          <!-- 控制器 -->
-          <ul class="carousel-indicators">
-            {% for banner in banners %}
-              {% if forloop.counter0 == 0 %}
-                <li class="active">
-                </li>
-              {% else %}
-                <li></li>
-              {% endif %}
-            {% endfor %}
-          </ul>
-        </div>
-        <!-- 轮播图 -->
+        {% include 'banner.html' %}
         <section class="article-wrap">
           <ul class="tab">
             <li class="post-left-title">最新文章</li>
