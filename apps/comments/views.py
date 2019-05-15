@@ -7,7 +7,9 @@ from .forms import CommentForm
 from utils.utils import ip_to_addr, get_user_agent
 from celery_tasks import tasks
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 # Create your views here.
 @require_POST
@@ -45,13 +47,13 @@ def add_comment(request):
                                       browser=browser,
                                       parent_id=parent_id)
             new_comment.save()
-            point=site + '#comment-%s'%(new_comment.pk)
+            point = site + '#comment-%s' % (new_comment.pk)
             send_from = settings.EMAIL_HOST_USER
             email_data = {
                 'comment_name': name,
                 'comment_content': content,
                 'comment_url': url,
-                'point':point
+                'point': point
             }
             to_list = []
             # 发送给自己（可以写其他邮箱）
@@ -67,7 +69,6 @@ def add_comment(request):
                 subject = '来着[Superficial的博客]博文评论'
                 template = 'email/send_email.html'
                 to_list.append('347106739@qq.com')
-            # send_email_by_celery.delay(subject, template, email_data, to_list)
             tasks.send_email_by_celery.delay(subject, template, email_data, send_from, to_list)
             return JsonResponse({'msg': '评论提交成功！', 'new_point': point})
         return JsonResponse({'msg': '评论失败！'})
