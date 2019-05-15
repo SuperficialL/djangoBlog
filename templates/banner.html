@@ -1,0 +1,22 @@
+{% load blog_tags %}
+<!-- 轮播图 -->
+<div class="carousel">
+  <div class="swiper-wrapper">
+    {% get_carousel_list as banners %}
+    {% for banner in banners %}
+      <div class="swiper-slide">
+        <img src="{{ banner.img.url }}" alt="{{ banner.title }}">
+      </div>
+    {% empty %}
+      <div class="swiper-slide">
+        <img src="{{ banner.img.url }}" alt="{{ banner.title }}">
+      </div>
+    {% endfor %}
+  </div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+  <!-- Add Arrows -->
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
+<!-- 轮播图 -->

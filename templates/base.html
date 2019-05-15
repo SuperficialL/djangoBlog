@@ -1,0 +1,106 @@
+{% load blog_tags %}
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <title>
+    Superficial Blog | {% block title %}{% endblock %}
+  </title>
+  <meta name="keywords" content="{{ site_info.keywords }}">
+  <meta name="description" content="{{ site_info.description }}">
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+  <link rel='stylesheet' href='{% static "css/font-awesome.min.css" %}' type='text/css'/>
+  <link rel='stylesheet' href='{% static "css/style.css" %}' type='text/css'/>
+  <link rel='stylesheet' href='{% static "css/swiper.min.css" %}' type='text/css'/>
+  {% block css %}{% endblock %}
+</head>
+<body>
+<!-- 头部 -->
+<header id="header">
+  <div class="container">
+    <div class="left-wrap">
+      <div class="logo">
+        <a href="{% url 'blog:index' %}">Superficial</a>
+      </div>
+      <nav class="nav">
+        <ul id="nav-list">
+          <li class="active">
+            <a href="{% url 'blog:index' %}">首页</a>
+          </li>
+          {% get_navigation_list as menu %}
+          {% for nav in menu %}
+            {% get_category_list nav.pk as categories %}
+            <li>
+              <a href="{% url 'blog:category' nav.slug '' %}">
+                {{ nav.name }}
+                {% if categories %}
+                  <i class="fa fa-angle-down"></i>
+                {% endif %}
+              </a>
+              <ul class="sub">
+                {% for category in categories %}
+                  <li>
+                    <a href="{% url 'blog:category' nav.slug category.slug %}">
+                      {{ category.name }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+    <div class="search-ico">
+      <i class="fa fa-search"></i>
+      <i class="fa fa-navicon"></i>
+      <i class="fa fa-remove"></i>
+      <form action="/search/" class="search">
+        <input type="text" placeholder="搜索关键字~" name="keyword">
+      </form>
+    </div>
+  </div>
+</header>
+{% block content %}
+
+{% endblock %}
+
+<!-- 底部 -->
+<footer id="footer">
+  <div class="container">
+    <ul class="link-wrap">
+      {% for link in links %}
+        <li class="link">
+          <a href="{{ link.link_url }}" target="_blank">{{ link.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="copyright">
+      <ul class="footer-menu">
+        <li class="item">
+          <a href="/">首页</a>
+        </li>
+        <li class="item">
+          <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" target='_blank'>
+            站点地图
+          </a>
+        </li>
+      </ul>
+      <div class="site-info">
+        {{ site_info.copyright }}
+        <a href="http://www.miibeian.gov.cn" target="_blank">{{ site_info.code }}</a>
+      </div>
+    </div>
+    <div class="back-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+</footer>
+<script type='text/javascript' src='{% static "js/jquery.min.js" %}'></script>
+<script src="{% static 'js/common.js' %}"></script>
+<script src="{% static 'js/swiper.min.js' %}"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

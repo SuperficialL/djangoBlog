@@ -1,0 +1,70 @@
+﻿{% extends "base.html" %}
+{% load comment_tags %}
+{% block title %}
+  {{ category }}
+{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        <div class="category">
+          <h2 class="title">分类：{{ category }}</h2>
+          <p class="count">共{{ article_list.count }}篇</p>
+        </div>
+        <section class="article-wrap">
+          {% for article in page_obj %}
+            <article class="article-list">
+              <a href="{{ article.get_absolute_url }}"
+                 title="{{ article.title }}"
+                 class="thumbnail-wrap"
+              >
+                <img src="{{ article.img.url }}"
+                     alt="{{ article.title }}"
+                     class="thumbnail"/>
+              </a>
+              <div class="article-inner">
+                <h3 class="title">
+                  <a href="{{ article.get_absolute_url }}"
+                     title="{{ article.title }}">
+                    {{ article.title }}
+                  </a>
+                </h3>
+                <div class="summary">
+                  {{ article.summary }}
+                </div>
+                <div class="article-info">
+                  <div class="meta">
+                    <span class="label label-info">
+                      <a href="{% url 'blog:category' article.category.navigation.slug article.category.slug %}">
+                        {{ article.category.name }}
+                      </a>
+                    </span>
+                    <span>
+                      <i class="fa fa-clock-o"></i>
+                      {{ article.created_time }}
+                    </span>
+                    <span>
+                      <i class="fa fa-eye"></i>
+                      {{ article.views }}
+                    </span>
+                    <span>
+                      <i class="fa fa-commenting-o"></i>
+                      {% get_comment_count article.id %}
+                    </span>
+                  </div>
+                  <a class="label label-info detail-btn" href="{{ article.get_absolute_url }}">
+                    阅读详情
+                  </a>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+          {% include 'paginator.html' %}
+        </section>
+      </div>
+      <div class="sidebar">
+        {% include 'sidebar.html' %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
