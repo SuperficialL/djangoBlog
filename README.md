@@ -34,7 +34,7 @@ eventlet,monotonic, greenlet, six, dnspython
 ### 创建配置文件djangoBlog.conf到 /etc/nginx/conf.d/目录下
 
 ### 安装supervisor守护进程
-[安装supervisor守护进程](http://www.supervisord.org/){target=_blank}
+[安装supervisor守护进程](http://www.supervisord.org/){:target=_blank}
 ### 防止uwsgi发生意外挂掉，自动重启
 ### 创建配置文件djangoBlog.conf到 /etc/nginx/conf.d/目录下
 ### 安装supervisor守护uwsgi进程，防止uwsgi发生意外挂掉，自动重启
