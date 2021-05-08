@@ -8,7 +8,7 @@ django-mdeditor==0.1.13
 djangorestframework==3.9.3
 djangorestframework-jwt==1.11.0
 dnspython==1.16.0
-eventlet==0.24.1
+eventlet==0.31.0
 geoip2==2.9.0
 greenlet==0.4.15
 idna==2.8
