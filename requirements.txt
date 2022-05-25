@@ -19,7 +19,7 @@ monotonic==1.5
 mysql-connector-python==8.0.14
 mysqlclient==1.4.2.post1
 Pillow==5.4.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pytz==2019.1
 redis==3.2.1
 requests==2.21.0
@@ -31,6 +31,6 @@ geoip2==2.9.0
 Markdown==3.1
 mysqlclient==1.4.2.post1
 Pillow==5.4.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 requests==2.21.0
 urllib3==1.24
